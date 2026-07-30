@@ -110,7 +110,7 @@ if (
     <main class="max-w-5xl mx-auto p-4" :class="totalItems > 0 ? 'pb-20' : 'pb-4'">
 
         <!-- Category Filter -->
-        <div class="flex overflow-x-auto gap-2 py-4 no-scrollbar">
+        <div class="flex overflow-x-auto gap-2 py-4 no-scrollbar" x-show="allProducts.length > 0" style="display: none;">
             <button @click="selectedCategory = 'all'"
                 :class="selectedCategory === 'all' ? 'bg-primary text-white' : 'card-custom border'"
                 class="px-4 py-2 rounded-full whitespace-nowrap text-sm font-semibold transition">
