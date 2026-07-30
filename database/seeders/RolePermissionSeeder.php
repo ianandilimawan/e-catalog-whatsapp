@@ -194,6 +194,127 @@ class RolePermissionSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
+            // Catalog Permissions
+            [
+                'display_name' => 'View Stores',
+                'name' => 'view-stores',
+                'description' => null,
+                'module' => 'stores',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'Create Store',
+                'name' => 'create-stores',
+                'description' => null,
+                'module' => 'stores',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'Edit Store',
+                'name' => 'edit-stores',
+                'description' => null,
+                'module' => 'stores',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'Delete Store',
+                'name' => 'delete-stores',
+                'description' => null,
+                'module' => 'stores',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'View Categories',
+                'name' => 'view-categories',
+                'description' => null,
+                'module' => 'categories',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'Create Category',
+                'name' => 'create-categories',
+                'description' => null,
+                'module' => 'categories',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'Edit Category',
+                'name' => 'edit-categories',
+                'description' => null,
+                'module' => 'categories',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'Delete Category',
+                'name' => 'delete-categories',
+                'description' => null,
+                'module' => 'categories',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'View Products',
+                'name' => 'view-products',
+                'description' => null,
+                'module' => 'products',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'Create Product',
+                'name' => 'create-products',
+                'description' => null,
+                'module' => 'products',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'Edit Product',
+                'name' => 'edit-products',
+                'description' => null,
+                'module' => 'products',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'display_name' => 'Delete Product',
+                'name' => 'delete-products',
+                'description' => null,
+                'module' => 'products',
+                'is_active' => true,
+                'guard_name' => 'web',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ];
 
         foreach ($permissions as $permission) {
@@ -255,6 +376,41 @@ class RolePermissionSeeder extends Seeder
         if ($viewLaravelLogsPermission) {
             $developerRole->givePermissionTo($viewLaravelLogsPermission);
             $this->command->info('Laravel Logs permission assigned to Developer role');
+        }
+
+        // Create Admin Toko Role
+        $adminTokoRole = Role::updateOrCreate(
+            ['name' => 'admin-toko', 'guard_name' => 'web'],
+            [
+                'display_name' => 'Admin Toko',
+                'name' => 'admin-toko',
+                'description' => 'Akses kelola katalog tenant',
+                'is_active' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]
+        );
+
+        $this->command->info('Admin Toko role created');
+
+        $adminTokoPermissions = Permission::whereIn('name', [
+            'view-stores',
+            'create-stores',
+            'edit-stores',
+            'delete-stores',
+            'view-categories',
+            'create-categories',
+            'edit-categories',
+            'delete-categories',
+            'view-products',
+            'create-products',
+            'edit-products',
+            'delete-products'
+        ])->get();
+
+        if ($adminTokoPermissions->count() > 0) {
+            $adminTokoRole->syncPermissions($adminTokoPermissions);
+            $this->command->info('E-Katalog permissions assigned to Admin Toko role');
         }
     }
 }

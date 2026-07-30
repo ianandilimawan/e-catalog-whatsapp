@@ -14,18 +14,21 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*');
         $middleware->web(append: [
             \App\Http\Middleware\CheckMaintenanceMode::class,
             \App\Http\Middleware\AjaxFormResponseMiddleware::class,
+            \App\Http\Middleware\SetLocale::class,
         ]);
-        
+
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            'ensure.store' => \App\Http\Middleware\EnsureHasStore::class,
         ]);
 
-        $middleware->redirectGuestsTo(fn() => route('admin.login'));
+        $middleware->redirectGuestsTo(fn() => route('login'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Handle 419 CSRF token mismatch error
@@ -40,12 +43,12 @@ return Application::configure(basePath: dirname(__DIR__))
                 if ($request->expectsJson() || $request->ajax()) {
                     return response()->json([
                         'error' => 'Session expired. Please login again.',
-                        'redirect' => route('admin.login')
+                        'redirect' => route('login')
                     ], 419);
                 }
 
                 return redirect()
-                    ->route('admin.login')
+                    ->route('login')
                     ->with('error', 'Session expired. Please login again.');
             }
 

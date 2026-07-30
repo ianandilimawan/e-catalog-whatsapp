@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->hasPermissionTo($permission);
     }
+
+    public function store()
+    {
+        return $this->hasOne(\App\Models\Store::class, 'user_id');
+    }
 }

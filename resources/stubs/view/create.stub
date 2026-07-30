@@ -61,5 +61,4 @@
         </div>
     </div>
 
-    @include('{{VIEW_PATH_ADMIN}}.partials.ajax-form-submit')
 @endsection

@@ -8,7 +8,8 @@
 
         <!-- Theme Toggle -->
         <div class="absolute top-6 right-6 z-50 animate-fade-in-up" style="animation-delay: 0.2s;">
-            <button id="themeToggle" class="p-2.5 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-700/50 rounded-xl text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white shadow-sm transition-all hover:scale-105">
+            <button id="themeToggle"
+                class="p-2.5 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-700/50 rounded-xl text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white shadow-sm transition-all hover:scale-105">
                 <x-heroicon-s-sun id="sunIcon" class="w-5 h-5" style="display: block;" />
                 <x-heroicon-s-moon id="moonIcon" class="w-5 h-5" style="display: none;" />
             </button>
@@ -34,11 +35,13 @@
                 <div class="relative z-10">
                     @if (isset($settings) && $settings->logo_type === 'image' && $settings->app_logo)
                         <img src="{{ \App\Services\FileUploadService::getFileUrl($settings->app_logo) }}"
-                            alt="{{ $settings->app_name }}" class="h-12 object-contain mb-8 filter drop-shadow-sm dark:drop-shadow-lg">
+                            alt="{{ $settings->app_name }}"
+                            class="h-12 object-contain mb-8 filter drop-shadow-sm dark:drop-shadow-lg">
                     @else
                         <div
                             class="h-12 w-12 bg-white/50 dark:bg-white/20 backdrop-blur-md rounded-xl shadow-sm dark:shadow-inner border border-zinc-200/50 dark:border-white/30 flex items-center justify-center mb-8 transition-colors duration-500">
-                            <svg class="h-6 w-6 text-blue-600 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-6 w-6 text-blue-600 dark:text-white" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                             </svg>
@@ -49,7 +52,8 @@
                         Welcome to<br>
                         {{ isset($settings) && $settings->logo_text ? $settings->logo_text : (isset($settings) ? $settings->app_name : 'Admin Panel') }}
                     </h1>
-                    <p class="text-zinc-600 dark:text-blue-100/90 text-lg max-w-sm drop-shadow-none dark:drop-shadow-sm transition-colors duration-500">
+                    <p
+                        class="text-zinc-600 dark:text-blue-100/90 text-lg max-w-sm drop-shadow-none dark:drop-shadow-sm transition-colors duration-500">
                         Experience the powerful and seamless management dashboard tailored for your business needs.
                     </p>
                 </div>
@@ -81,7 +85,7 @@
                 </div>
 
                 <!-- Login Form -->
-                <form class="space-y-5" action="{{ route('admin.login.post') }}" method="POST" id="loginForm">
+                <form class="space-y-5" action="{{ route('login.post') }}" method="POST" id="loginForm">
                     @csrf
 
                     <!-- Email Field -->
@@ -189,11 +193,16 @@
 
                 <!-- Footer Info -->
                 <div class="text-center mt-10">
-                    <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                        Belum punya akun?
+                        <a href="{{ route('register') }}" class="font-semibold text-blue-600 dark:text-blue-400 hover:underline underline-offset-2">Daftar di sini</a>
+                    </p>
+                    <p class="text-xs font-medium text-zinc-400 dark:text-zinc-600 mt-4">
                         © {{ date('Y') }} {{ isset($settings) ? $settings->app_name : 'Admin Panel' }}. Created By
-                        <a class="text-blue-600 dark:text-blue-400" href="#">Redtech</a>
+                        <a class="text-blue-600 dark:text-blue-400" href="#">Intech Studio</a>
                     </p>
                 </div>
+
             </div>
         </div>
     </div>
@@ -202,7 +211,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const html = document.documentElement;
             // Get saved theme or default to DB setting to ensure proper rendering if head script missed it
-            const dbTheme = '{{ \App\Models\Setting::getSettings()->theme_default ?? "light" }}';
+            const dbTheme = '{{ \App\Models\Setting::getSettings()->theme_default ?? 'light' }}';
             let savedTheme = localStorage.getItem('adminTheme');
             if (!savedTheme) {
                 if (dbTheme === 'system') {

@@ -162,7 +162,7 @@ class {{TEST_NAME}} extends TestCase
     {
         $response = $this->get(route('{{ROUTE_NAME}}.index'));
 
-        $response->assertRedirect(route('admin.login'));
+        $response->assertRedirect(route('login'));
     }
 
     /**

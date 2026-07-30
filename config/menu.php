@@ -30,6 +30,31 @@ return [
         ],
     ],
 
+    'Master' => [
+        [
+            'name' => 'Products',
+            'route' => 'admin.products.index',
+            'icon' => 'shopping-cart',
+            'permission' => 'view-products',
+        ],
+
+        [
+            'name' => 'Categories',
+            'route' => 'admin.categories.index',
+            'icon' => 'folder',
+            'permission' => 'view-categories',
+        ],
+    ],
+
+    'Store Settings' => [
+        [
+            'name' => 'Stores / My Store',
+            'route' => 'admin.stores.index',
+            'icon' => 'circle',
+            'permission' => 'view-stores',
+        ],
+    ],
+
     'User Management' => [
         [
             'name' => 'Users',
@@ -76,6 +101,5 @@ return [
 
     'Content Management' => [],
 
-    'App Settings' => [
-    ],
+    'App Settings' => [],
 ];

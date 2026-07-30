@@ -12,6 +12,8 @@
             href="{{ \App\Services\FileUploadService::getFileUrl($settings->favicon) }}">
         <link rel="shortcut icon" type="image/x-icon"
             href="{{ \App\Services\FileUploadService::getFileUrl($settings->favicon) }}">
+    @else
+        <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpg') }}">
     @endif
 
     <link rel="preconnect" href="https://fonts.bunny.net">

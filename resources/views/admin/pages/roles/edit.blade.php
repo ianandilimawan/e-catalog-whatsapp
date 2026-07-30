@@ -8,7 +8,7 @@
             <p class="mt-1 lg:text-sm text-xs text-gray-600 dark:text-gray-400">Update role information</p>
         </div>
 
-@if ($errors->any())
+        @if ($errors->any())
             <div class="bg-red-50 dark:bg-red-900 border-2 border-red-600 dark:border-red-600 shadow-sm rounded-xl p-4">
                 <ul class="text-sm text-red-900 dark:text-red-200 font-semibold">
                     @foreach ($errors->all() as $error)
@@ -20,18 +20,21 @@
 
         <!-- Form -->
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
-            <form x-data="ajaxForm" @submit.prevent="submit" action="{{ route('admin.roles.update', $role) }}" method="POST" class="lg:p-8 px-4 py-4 space-y-6">
+            <form x-data="ajaxForm" @submit.prevent="submit" action="{{ route('admin.roles.update', $role) }}"
+                method="POST" class="lg:p-8 px-4 py-4 space-y-6">
                 @csrf
                 @method('PUT')
 
                 <!-- Name -->
                 <div class="mb-6">
-                    <x-input-floating type="text" name="name" label="Name" value="{{ old('name', $role->name) }}" required="true" />
+                    <x-input-floating type="text" name="name" label="Name" value="{{ old('name', $role->name) }}"
+                        required="true" />
                 </div>
 
                 <!-- Description -->
                 <div>
-                    <x-textarea-floating name="description" label="Description" value="{{ old('description', $role->description) }}" />
+                    <x-textarea-floating name="description" label="Description"
+                        value="{{ old('description', $role->description) }}" />
                 </div>
 
                 <!-- Is Active -->
@@ -39,7 +42,9 @@
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" name="is_active" id="is_active" value="1"
                             {{ old('is_active', $role->is_active) ? 'checked' : '' }} class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <div
+                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                        </div>
                         <span class="ml-3 text-sm font-semibold text-gray-700 dark:text-gray-300">Active</span>
                     </label>
                 </div>
@@ -67,42 +72,61 @@
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-800">
                                     <tr>
-                                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/4">Module</th>
-                                        <th class="px-4 py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">All</th>
-                                        <th class="px-4 py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">View</th>
-                                        <th class="px-4 py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Create</th>
-                                        <th class="px-4 py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Edit</th>
-                                        <th class="px-4 py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Delete</th>
-                                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Other</th>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/4">
+                                            Module</th>
+                                        <th
+                                            class="px-4 py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            All</th>
+                                        <th
+                                            class="px-4 py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            View</th>
+                                        <th
+                                            class="px-4 py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Create</th>
+                                        <th
+                                            class="px-4 py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Edit</th>
+                                        <th
+                                            class="px-4 py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Delete</th>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Other</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                                     @foreach ($groupedPermissions as $module => $modulePermissions)
                                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                                            <td class="px-4 py-3 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-gray-200 capitalize">
+                                            <td
+                                                class="px-4 py-3 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-gray-200 capitalize">
                                                 {{ str_replace('_', ' ', $module ?: 'Other') }}
                                             </td>
                                             <td class="px-4 py-3 whitespace-nowrap text-center">
-                                                <input type="checkbox" class="select-all-module w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-900 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" data-module="{{ $module ?? 'other' }}">
+                                                <input type="checkbox"
+                                                    class="select-all-module w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-900 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+                                                    data-module="{{ $module ?? 'other' }}">
                                             </td>
                                             @php
-                                                $getPerm = function($type) use ($modulePermissions) {
-                                                    return $modulePermissions->first(function($p) use ($type) {
-                                                        return str_starts_with($p->name, $type . '-') || str_ends_with($p->name, '.' . $type);
+                                                $getPerm = function ($type) use ($modulePermissions) {
+                                                    return $modulePermissions->first(function ($p) use ($type) {
+                                                        return str_starts_with($p->name, $type . '-') ||
+                                                            str_ends_with($p->name, '.' . $type);
                                                     });
                                                 };
                                                 $viewPerm = $getPerm('view');
                                                 $createPerm = $getPerm('create');
                                                 $editPerm = $getPerm('edit');
                                                 $deletePerm = $getPerm('delete');
-                                                
-                                                $otherPerms = $modulePermissions->filter(function($p) {
-                                                    return !preg_match('/^(view|create|edit|delete)-/', $p->name) && !preg_match('/\.(view|create|edit|delete)$/', $p->name);
+
+                                                $otherPerms = $modulePermissions->filter(function ($p) {
+                                                    return !preg_match('/^(view|create|edit|delete)-/', $p->name) &&
+                                                        !preg_match('/\.(view|create|edit|delete)$/', $p->name);
                                                 });
                                             @endphp
-                                            
+
                                             <td class="px-4 py-3 whitespace-nowrap text-center">
-                                                @if($viewPerm)
+                                                @if ($viewPerm)
                                                     <input type="checkbox" name="permissions[]" value="{{ $viewPerm->id }}"
                                                         {{ in_array($viewPerm->id, old('permissions', $rolePermissionIds)) ? 'checked' : '' }}
                                                         class="permission-checkbox module-{{ $module ?? 'other' }} w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-900 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer">
@@ -111,8 +135,9 @@
                                                 @endif
                                             </td>
                                             <td class="px-4 py-3 whitespace-nowrap text-center">
-                                                @if($createPerm)
-                                                    <input type="checkbox" name="permissions[]" value="{{ $createPerm->id }}"
+                                                @if ($createPerm)
+                                                    <input type="checkbox" name="permissions[]"
+                                                        value="{{ $createPerm->id }}"
                                                         {{ in_array($createPerm->id, old('permissions', $rolePermissionIds)) ? 'checked' : '' }}
                                                         class="permission-checkbox module-{{ $module ?? 'other' }} w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-900 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer">
                                                 @else
@@ -120,7 +145,7 @@
                                                 @endif
                                             </td>
                                             <td class="px-4 py-3 whitespace-nowrap text-center">
-                                                @if($editPerm)
+                                                @if ($editPerm)
                                                     <input type="checkbox" name="permissions[]" value="{{ $editPerm->id }}"
                                                         {{ in_array($editPerm->id, old('permissions', $rolePermissionIds)) ? 'checked' : '' }}
                                                         class="permission-checkbox module-{{ $module ?? 'other' }} w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-900 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer">
@@ -129,8 +154,9 @@
                                                 @endif
                                             </td>
                                             <td class="px-4 py-3 whitespace-nowrap text-center">
-                                                @if($deletePerm)
-                                                    <input type="checkbox" name="permissions[]" value="{{ $deletePerm->id }}"
+                                                @if ($deletePerm)
+                                                    <input type="checkbox" name="permissions[]"
+                                                        value="{{ $deletePerm->id }}"
                                                         {{ in_array($deletePerm->id, old('permissions', $rolePermissionIds)) ? 'checked' : '' }}
                                                         class="permission-checkbox module-{{ $module ?? 'other' }} w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-900 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer">
                                                 @else
@@ -138,16 +164,19 @@
                                                 @endif
                                             </td>
                                             <td class="px-4 py-3 text-sm">
-                                                @if($otherPerms->isNotEmpty())
+                                                @if ($otherPerms->isNotEmpty())
                                                     <div class="flex flex-wrap gap-2">
-                                                    @foreach($otherPerms as $perm)
-                                                        <label class="inline-flex items-center cursor-pointer bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-2 py-1 rounded">
-                                                            <input type="checkbox" name="permissions[]" value="{{ $perm->id }}"
-                                                                {{ in_array($perm->id, old('permissions', $rolePermissionIds)) ? 'checked' : '' }}
-                                                                class="permission-checkbox module-{{ $module ?? 'other' }} w-3 h-3 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-900 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer">
-                                                            <span class="ml-1.5 text-xs text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ str_replace('-', ' ', $perm->name) }}</span>
-                                                        </label>
-                                                    @endforeach
+                                                        @foreach ($otherPerms as $perm)
+                                                            <label
+                                                                class="inline-flex items-center cursor-pointer bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-2 py-1 rounded">
+                                                                <input type="checkbox" name="permissions[]"
+                                                                    value="{{ $perm->id }}"
+                                                                    {{ in_array($perm->id, old('permissions', $rolePermissionIds)) ? 'checked' : '' }}
+                                                                    class="permission-checkbox module-{{ $module ?? 'other' }} w-3 h-3 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-900 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer">
+                                                                <span
+                                                                    class="ml-1.5 text-xs text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ str_replace('-', ' ', $perm->name) }}</span>
+                                                            </label>
+                                                        @endforeach
                                                     </div>
                                                 @endif
                                             </td>
@@ -167,16 +196,22 @@
                         class="lg:px-8 px-3 py-3 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors font-semibold shadow-md hover:shadow-lg border-2 border-gray-200 dark:border-gray-600 lg:text-base text-sm">
                         Cancel
                     </a>
-                    <button type="submit" class="lg:px-8 px-3 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-semibold shadow-md hover:shadow-lg hover:scale-105 transform lg:text-base text-sm" x-bind:disabled="loading">
-<span x-show="!loading">Update Role</span>
+                    <button type="submit"
+                        class="lg:px-8 px-3 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-semibold shadow-md hover:shadow-lg hover:scale-105 transform lg:text-base text-sm"
+                        x-bind:disabled="loading">
+                        <span x-show="!loading">Update Role</span>
                         <span x-show="loading" style="display: none;">
-                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
                             </svg>
                             Saving...
                         </span>
-</button>
+                    </button>
                 </div>
             </form>
         </div>

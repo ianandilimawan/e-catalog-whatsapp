@@ -12,6 +12,8 @@
             href="{{ \App\Services\FileUploadService::getFileUrl($settings->favicon) }}">
         <link rel="shortcut icon" type="image/x-icon"
             href="{{ \App\Services\FileUploadService::getFileUrl($settings->favicon) }}">
+    @else
+        <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpg') }}">
     @endif
 
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -36,9 +38,9 @@
     <script>
         // Initialize theme and sidebar state before body loads to prevent flash
         (function() {
-            const dbTheme = '{{ \App\Models\Setting::getSettings()->theme_default ?? "light" }}';
+            const dbTheme = '{{ \App\Models\Setting::getSettings()->theme_default ?? 'light' }}';
             let savedTheme = localStorage.getItem('adminTheme');
-            
+
             if (!savedTheme) {
                 if (dbTheme === 'system') {
                     savedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -57,14 +59,14 @@
             }
 
             // Apply sidebar state
-            const dbSidebarSetting = '{{ \App\Models\Setting::getSettings()->sidebar_style ?? "full" }}';
+            const dbSidebarSetting = '{{ \App\Models\Setting::getSettings()->sidebar_style ?? 'full' }}';
             const dbSidebar = dbSidebarSetting === 'collapsed' ? 'closed' : 'open';
-            
+
             let savedSidebarState = localStorage.getItem('desktopSidebarState');
             if (!savedSidebarState) {
                 savedSidebarState = dbSidebar;
             }
-            
+
             if (savedSidebarState === 'closed') {
                 html.classList.add('sidebar-closed');
             }
@@ -189,7 +191,7 @@
                 // Handle 419 CSRF token mismatch error
                 if (xhr.status === 419) {
                     // Redirect to login page
-                    window.location.href = '{{ route('admin.login') }}';
+                    window.location.href = '{{ route('login') }}';
                 }
             });
         }
@@ -204,7 +206,7 @@
                     // Handle 419 CSRF token mismatch error
                     if (error.response && error.response.status === 419) {
                         // Redirect to login page
-                        window.location.href = '{{ route('admin.login') }}';
+                        window.location.href = '{{ route('login') }}';
                         return Promise.reject(error);
                     }
                     return Promise.reject(error);
@@ -220,7 +222,7 @@
             const html = document.getElementById('adminHtml');
 
             // Get saved theme or default to DB setting
-            const dbTheme = '{{ \App\Models\Setting::getSettings()->theme_default ?? "light" }}';
+            const dbTheme = '{{ \App\Models\Setting::getSettings()->theme_default ?? 'light' }}';
             let savedTheme = localStorage.getItem('adminTheme');
             if (!savedTheme) {
                 if (dbTheme === 'system') {
@@ -317,13 +319,22 @@
                     }
                     this.loading = true;
                     // Remove old errors
-                    document.querySelectorAll('.text-red-500.ajax-error').forEach(el => el.remove());
-                    
+                    document.querySelectorAll('.text-red-500.ajax-error').forEach(el => el
+                .remove());
+
                     try {
+                        // Sync TinyMCE editors to textareas
+                        if (typeof tinymce !== 'undefined') {
+                            tinymce.triggerSave();
+                        }
+
                         const formData = new FormData(form);
                         const response = await fetch(form.action, {
                             method: 'POST',
-                            headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json'
+                            },
                             body: formData,
                         });
                         const data = await response.json();
@@ -332,7 +343,8 @@
                             if (typeof showToast === 'function') showToast(data.message, 'success');
                             if (data.redirect) {
                                 setTimeout(() => {
-                                    const url = new URL(data.redirect, window.location.origin);
+                                    const url = new URL(data.redirect, window.location
+                                        .origin);
                                     url.searchParams.set('_t', Date.now());
                                     window.location.href = url.toString();
                                 }, 1000);
@@ -344,18 +356,21 @@
                                 const input = form.querySelector(`[name="${field}"]`);
                                 if (input) {
                                     const errorEl = document.createElement('p');
-                                    errorEl.className = 'text-red-500 text-xs mt-1 ajax-error';
+                                    errorEl.className =
+                                        'text-red-500 text-xs mt-1 ajax-error';
                                     errorEl.textContent = data.errors[field][0];
                                     input.parentNode.appendChild(errorEl);
                                 }
                             });
-                            if (typeof showToast === 'function') showToast(data.message || 'Please fix the validation errors.', 'error');
+                            if (typeof showToast === 'function') showToast(data.message ||
+                                'Please fix the validation errors.', 'error');
                             this.loading = false;
                         } else {
                             throw new Error(data.message || 'Something went wrong');
                         }
                     } catch (error) {
-                        if (typeof showToast === 'function') showToast(error.message || 'Failed to submit form.', 'error');
+                        if (typeof showToast === 'function') showToast(error.message ||
+                            'Failed to submit form.', 'error');
                         this.loading = false;
                     }
                 }

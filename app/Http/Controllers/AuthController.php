@@ -43,11 +43,11 @@ class AuthController extends Controller
             // Check if OTP is enabled in env
             if (env('ENABLE_OTP_LOGIN', false)) {
                 $this->generateAndSendOtp($user);
-                
+
                 $request->session()->put('otp_user_id', $user->id);
                 $request->session()->put('otp_remember', $remember);
-                
-                return redirect()->route('admin.login.otp')->with('success', 'Please check your email for the OTP code.');
+
+                return redirect()->route('login.otp')->with('success', 'Please check your email for the OTP code.');
             }
 
             // Standard login if OTP is disabled
@@ -74,7 +74,7 @@ class AuthController extends Controller
     public function showOtpForm(Request $request)
     {
         if (!$request->session()->has('otp_user_id')) {
-            return redirect()->route('admin.login');
+            return redirect()->route('login');
         }
 
         $settings = Setting::getSettings();
@@ -88,7 +88,7 @@ class AuthController extends Controller
         ]);
 
         if (!$request->session()->has('otp_user_id')) {
-            return redirect()->route('admin.login')->with('error', 'Session expired. Please login again.');
+            return redirect()->route('login')->with('error', 'Session expired. Please login again.');
         }
 
         $userId = $request->session()->get('otp_user_id');
@@ -104,7 +104,7 @@ class AuthController extends Controller
 
         Auth::login($user, $remember);
         $request->session()->regenerate();
-        
+
         // Clean up
         Cache::forget('login_otp_' . $userId);
         $request->session()->forget(['otp_user_id', 'otp_remember']);
@@ -124,7 +124,7 @@ class AuthController extends Controller
     public function resendOtp(Request $request)
     {
         if (!$request->session()->has('otp_user_id')) {
-            return redirect()->route('admin.login')->with('error', 'Session expired. Please login again.');
+            return redirect()->route('login')->with('error', 'Session expired. Please login again.');
         }
 
         $userId = $request->session()->get('otp_user_id');
@@ -138,7 +138,7 @@ class AuthController extends Controller
     private function generateAndSendOtp(User $user)
     {
         $cacheKey = 'login_otp_' . $user->id;
-        
+
         // Reuse existing active OTP or generate a new one
         if (Cache::has($cacheKey)) {
             $otp = Cache::get($cacheKey);
@@ -175,6 +175,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login')->with('success', 'You have been logged out.');
+        return redirect()->route('login')->with('success', 'You have been logged out.');
     }
 }

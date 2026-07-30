@@ -30,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useTailwind();
 
+        if (str_contains(request()->getHost(), 'ngrok-free.app') || str_contains(request()->getHost(), 'ngrok.io')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
         try {
             $settings = Setting::first();
             if ($settings && $settings->smtp_host) {
@@ -66,6 +69,13 @@ class AppServiceProvider extends ServiceProvider
                     if ($user->hasRole(['administrator', 'admin'])) {
                         return true;
                     }
+
+                    if ($user->hasRole('admin-toko')) {
+                        $hasStore = \App\Models\Store::where('user_id', $user->id)->exists();
+                        if (!$hasStore && !in_array($item['name'], ['Stores / My Store', 'My Store'])) {
+                            return false;
+                        }
+                    }
                     if (!empty($item['permission'])) {
                         try {
                             return $user->hasPermissionTo($item['permission']);
@@ -74,9 +84,12 @@ class AppServiceProvider extends ServiceProvider
                         }
                     }
                     return true;
-                })->map(function ($item) use (&$filterMenus) {
+                })->map(function ($item) use (&$filterMenus, $user) {
                     if (!empty($item['children'])) {
                         $item['children'] = $filterMenus($item['children'])->values()->toArray();
+                    }
+                    if ($item['name'] === 'Stores / My Store') {
+                        $item['name'] = $user && $user->hasRole(['administrator', 'admin']) ? 'Stores' : 'My Store';
                     }
                     return $item;
                 });
