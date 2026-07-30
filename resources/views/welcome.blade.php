@@ -4,7 +4,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'E-Catalog WA') }} - Platform Katalog Digital ke WhatsApp</title>
+    <title>{{ config('app.name', 'Katalogin') }} - Platform Katalog Digital ke WhatsApp</title>
+    <meta name="description" content="Katalogin adalah platform e-catalog yang memudahkan UMKM membuat toko online dan menerima pesanan langsung melalui WhatsApp tanpa potongan komisi.">
+    <meta name="keywords" content="katalog digital, toko online whatsapp, e-catalog whatsapp, buat toko online gratis, umkm go digital">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="Katalogin - Platform Katalog Digital ke WhatsApp">
+    <meta property="og:description" content="Katalogin adalah platform e-catalog yang memudahkan UMKM membuat toko online dan menerima pesanan langsung melalui WhatsApp tanpa potongan komisi.">
+    <meta property="og:image" content="{{ asset('images/logo.jpg') }}">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url('/') }}">
+    <meta property="twitter:title" content="Katalogin - Platform Katalog Digital ke WhatsApp">
+    <meta property="twitter:description" content="Katalogin adalah platform e-catalog yang memudahkan UMKM membuat toko online dan menerima pesanan langsung melalui WhatsApp tanpa potongan komisi.">
+    <meta property="twitter:image" content="{{ asset('images/logo.jpg') }}">
+    
     <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpg') }}">
 
     <!-- Google Fonts -->
