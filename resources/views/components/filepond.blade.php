@@ -30,7 +30,9 @@
     cropper: null,
     cropImageSrc: '',
     rawFile: null,
+    masterOriginalFile: null,
     isDefaultLoading: false,
+    isCroppingOutput: false,
     initCropper() {
         if (typeof FilePondPluginFileValidateSize !== 'undefined') FilePond.registerPlugin(FilePondPluginFileValidateSize);
         if (typeof FilePondPluginImagePreview !== 'undefined') FilePond.registerPlugin(FilePondPluginImagePreview);
@@ -55,8 +57,9 @@
 
         @if ($aspectRatio)
             this.pond.on('addfile', (error, file) => {
-                if (error || this.isDefaultLoading) return;
-                if (file.origin === 1 && !file.getMetadata('cropped')) {
+                if (error || this.isDefaultLoading || this.isCroppingOutput) return;
+                if (!file.getMetadata('cropped')) {
+                    this.masterOriginalFile = file.file;
                     this.openCropper(file.file);
                 }
             });
@@ -71,39 +74,62 @@
                 });
         @endif
     },
-    openCropper(file) {
-        this.rawFile = file;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            this.cropImageSrc = e.target.result;
-            this.showCropper = true;
-            this.$nextTick(() => {
-                const img = this.$refs.cropperImage;
-                if (this.cropper) this.cropper.destroy();
-                let numRatio = NaN;
-                if ('{{ $aspectRatio }}') {
-                    const parts = '{{ $aspectRatio }}'.split(':');
-                    if (parts.length === 2) numRatio = parseFloat(parts[0]) / parseFloat(parts[1]);
-                }
-                this.cropper = new Cropper(img, {
-                    aspectRatio: isNaN(numRatio) ? 3/1 : numRatio,
-                    viewMode: 1,
-                    autoCropArea: 1,
-                    responsive: true,
-                    background: false
-                });
+    openCropper(fileSource) {
+        let source = this.masterOriginalFile || fileSource;
+        if (!source && '{{ $defaultFile }}') {
+            source = '{{ $defaultFile }}';
+        }
+
+        if (source instanceof File || source instanceof Blob) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.cropImageSrc = e.target.result;
+                this.initCropperInstance();
+            };
+            reader.readAsDataURL(source);
+        } else if (typeof source === 'string') {
+            this.cropImageSrc = source;
+            this.initCropperInstance();
+        }
+    },
+    initCropperInstance() {
+        this.showCropper = true;
+        if (this.cropper) {
+            this.cropper.destroy();
+            this.cropper = null;
+        }
+        setTimeout(() => {
+            const img = this.$refs.cropperImage;
+            if (!img) return;
+            if (this.cropper) {
+                this.cropper.destroy();
+                this.cropper = null;
+            }
+            let numRatio = NaN;
+            if ('{{ $aspectRatio }}') {
+                const parts = '{{ $aspectRatio }}'.split(':');
+                if (parts.length === 2) numRatio = parseFloat(parts[0]) / parseFloat(parts[1]);
+            }
+            this.cropper = new Cropper(img, {
+                aspectRatio: isNaN(numRatio) ? 3/1 : numRatio,
+                viewMode: 1,
+                autoCropArea: 0.9,
+                responsive: true,
+                restore: false,
+                background: false
             });
-        };
-        reader.readAsDataURL(file);
+        }, 150);
     },
     applyCrop() {
         if (!this.cropper) return;
+        this.isCroppingOutput = true;
         const canvas = this.cropper.getCroppedCanvas({
             maxWidth: 2000,
             maxHeight: 2000
         });
         canvas.toBlob((blob) => {
-            const fileName = (this.rawFile && this.rawFile.name) ? this.rawFile.name : 'cropped-image.jpg';
+            const originalName = (this.masterOriginalFile && this.masterOriginalFile.name) ? this.masterOriginalFile.name : 'banner.jpg';
+            const fileName = 'cropped-' + originalName;
             const mimeType = blob.type || 'image/jpeg';
             const croppedFile = new File([blob], fileName, { type: mimeType });
             
@@ -120,6 +146,7 @@
             const pondFile = this.pond.addFile(croppedFile);
             pondFile.then(item => {
                 if (item) item.setMetadata('cropped', true);
+                setTimeout(() => { this.isCroppingOutput = false; }, 500);
             });
 
             this.closeCropper();
@@ -131,6 +158,7 @@
             this.cropper = null;
         }
         this.showCropper = false;
+        this.cropImageSrc = '';
     }
 }" x-init="initCropper()">
     @if ($label)
@@ -155,12 +183,7 @@
 
         @if ($aspectRatio)
             <button type="button" @click="
-                let files = pond.getFiles();
-                if (files.length > 0 && files[0].file) {
-                    openCropper(files[0].file);
-                } else {
-                    $refs.input.click();
-                }
+                openCropper();
             " class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold hover:underline flex items-center gap-1">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L7.121 7.121m5.758 4.879L7 17"></path></svg>
                 <span>Atur Posisi / Crop</span>

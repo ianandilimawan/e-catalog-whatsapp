@@ -124,9 +124,7 @@
         $hasSlugField = true;
         $slugSourceField = 'name';
         $tagifyFields = [];
-        $textareaFields = [
-            0 => 'welcome_message',
-        ];
+        $textareaFields = [];
         $selectFields = [
             0 => 'user_id',
         ];
