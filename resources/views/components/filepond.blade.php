@@ -1,4 +1,4 @@
-@props(['name', 'label' => '', 'accept' => 'image/*,.webp,.gif,.svg,image/svg+xml', 'defaultFile' => null, 'isAvatar' => false])
+@props(['name', 'label' => '', 'accept' => 'image/*,.webp,.gif,.svg,image/svg+xml', 'defaultFile' => null, 'isAvatar' => false, 'hint' => null])
 
 @once
     @push('styles')
@@ -8,6 +8,7 @@
     @endpush
 
     @push('scripts')
+        <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
         <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
         <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     @endpush
@@ -15,12 +16,16 @@
 
 <div class="mb-4">
     @if ($label)
-        <label for="{{ $name }}" class="block text-xs uppercase tracking-wider font-bold text-gray-500 dark:text-gray-400 mb-2">
-            {{ $label }}
-        </label>
+        <div class="flex items-center justify-between mb-2">
+            <label for="{{ $name }}" class="block text-xs uppercase tracking-wider font-bold text-gray-500 dark:text-gray-400">
+                {{ $label }}
+            </label>
+            <span class="text-[11px] font-semibold text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">Max 5MB</span>
+        </div>
     @endif
 
     <div x-data="{ pond: null }" x-init="
+    if (typeof FilePondPluginFileValidateSize !== 'undefined') FilePond.registerPlugin(FilePondPluginFileValidateSize);
     if (typeof FilePondPluginImagePreview !== 'undefined') FilePond.registerPlugin(FilePondPluginImagePreview);
     if (typeof FilePondPluginImageCrop !== 'undefined') FilePond.registerPlugin(FilePondPluginImageCrop);
 
@@ -29,6 +34,9 @@
         allowMultiple: {{ $attributes->has('multiple') ? 'true' : 'false' }},
         server: null,
         credits: false,
+        maxFileSize: '5MB',
+        labelMaxFileSizeExceeded: 'Ukuran file terlalu besar',
+        labelMaxFileSize: 'Maksimal ukuran file adalah {filesize}',
         imagePreviewHeight: {{ $isAvatar ? 150 : 200 }},
         {!! $isAvatar ? "
         stylePanelLayout: 'compact circle',
@@ -44,6 +52,11 @@
         <input type="file" x-ref="input" name="{{ $name }}" id="{{ $name }}"
             accept="{{ $accept }}" {{ $attributes }}>
     </div>
+
+    <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+        <svg class="w-3.5 h-3.5 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span>{{ $hint ?? 'Maksimal ukuran gambar 5MB' }}</span>
+    </p>
 
     @error($name)
         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
