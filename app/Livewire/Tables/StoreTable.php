@@ -87,6 +87,12 @@ class StoreTable extends PowerGridComponent
                 }
                 return '<span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Inactive</span>';
             })
+            ->add('is_active_display', function (Store $row) {
+                if ($row->is_active ?? true) {
+                    return '<span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Aktif</span>';
+                }
+                return '<span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Nonaktif</span>';
+            })
             ->add('action', function (Store $row) {
                 $actions = '<div class="flex items-center justify-center gap-1">';
 
@@ -121,6 +127,7 @@ class StoreTable extends PowerGridComponent
             Column::make('Store Name', 'name')->sortable()->searchable(),
             Column::make('Link', 'link'),
             Column::make('Wa Number', 'wa_number')->sortable()->searchable(),
+            Column::make('Status', 'is_active_display'),
             // Column::make('Theme Color', 'theme_color')->sortable()->searchable(),
             // Column::make('Welcome Message', 'welcome_message')->sortable()->searchable(),
             // Column::make('Logo', 'logo')->sortable()->searchable(),

@@ -40,6 +40,7 @@ class UpdateStoreRequest extends FormRequest
             'banner' => 'nullable',
             'button_rounded' => 'nullable',
             'dark_mode' => 'nullable',
+            'is_active' => 'nullable',
         ];
     }
 

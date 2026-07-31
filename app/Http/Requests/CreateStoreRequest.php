@@ -40,6 +40,7 @@ class CreateStoreRequest extends FormRequest
             'banner' => 'required',
             'button_rounded' => 'nullable',
             'dark_mode' => 'nullable',
+            'is_active' => 'nullable',
         ];
     }
 

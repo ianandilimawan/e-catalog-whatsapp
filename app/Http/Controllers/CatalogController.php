@@ -13,6 +13,10 @@ class CatalogController extends Controller
     {
         $store = Store::where('slug', $slug)->firstOrFail();
 
+        if (isset($store->is_active) && !$store->is_active) {
+            abort(404, 'Toko ini sedang tidak aktif.');
+        }
+
         $categories = Category::where('store_id', $store->id)->get();
         
         $productsQuery = Product::with('images')->where('store_id', $store->id);

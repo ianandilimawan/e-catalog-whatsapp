@@ -16,19 +16,20 @@ class Store extends Model
     const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
-        'user_id', 'name', 'slug', 'wa_number', 'theme_color', 'welcome_message', 'logo', 'banner', 'button_rounded', 'dark_mode', 'wa_checkout_clicks'
+        'user_id', 'name', 'slug', 'wa_number', 'theme_color', 'welcome_message', 'logo', 'banner', 'button_rounded', 'dark_mode', 'is_active', 'wa_checkout_clicks'
     ];
     protected $casts = [
         'button_rounded' => 'boolean',
-        'dark_mode' => 'boolean'
+        'dark_mode' => 'boolean',
+        'is_active' => 'boolean'
     ];
 
     protected static function booted()
     {
         static::addGlobalScope('tenant', function ($builder) {
             if (auth()->check() && request()->is('admin/*')) {
-                // If they are not admin, they only see their own store
-                if (!auth()->user()->hasRole('admin')) {
+                // If they are not platform admin, they only see their own store
+                if (!auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
                     $builder->where('user_id', auth()->id());
                 }
             }

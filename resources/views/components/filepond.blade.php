@@ -40,7 +40,7 @@
         " : "" !!}
     });
 
-    @if ($defaultFile) pond.addFile('{{ $defaultFile }}'); @endif" class="filepond-wrapper {{ $isAvatar ? 'w-40' : '' }}">
+    @if ($defaultFile) pond.addFile('{{ $defaultFile }}').catch(function(e) { console.warn('FilePond preview warning:', e); }); @endif" class="filepond-wrapper {{ $isAvatar ? 'w-40' : '' }}">
         <input type="file" x-ref="input" name="{{ $name }}" id="{{ $name }}"
             accept="{{ $accept }}" {{ $attributes }}>
     </div>
