@@ -58,7 +58,7 @@
                 value="{{ $store->wa_number ?? '' }}" />
         </div>
         <x-textarea-floating name="welcome_message" label="Welcome Message (Displayed on Catalog)"
-            value="{!! $store->welcome_message ?? '' !!}" />
+            value="{{ $store->welcome_message ?? '' }}" />
     </div>
 
     <!-- Design & Branding Section -->

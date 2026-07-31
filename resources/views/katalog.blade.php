@@ -93,7 +93,7 @@ if (
             <div>
                 <h1 class="text-xl font-bold">{{ $store->name }}</h1>
                 @if ($store->welcome_message)
-                    <p class="text-sm opacity-90 truncate max-w-[250px]">{!! $store->welcome_message !!}</p>
+                    <p class="text-sm opacity-90 truncate max-w-[250px]">{{ $store->welcome_message }}</p>
                 @endif
                 <p class="text-xs opacity-75 mt-0.5">{{ $products->total() }} Produk</p>
             </div>

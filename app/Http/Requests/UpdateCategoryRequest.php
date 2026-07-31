@@ -18,6 +18,7 @@ class UpdateCategoryRequest extends FormRequest
     {
         $this->merge([
             'store_id' => $this->input('store_id') ?? (auth()->user()->store->id ?? null),
+            'name' => $this->input('name') !== null ? strip_tags($this->input('name')) : null,
             'slug' => $this->input('slug') ?: \Illuminate\Support\Str::slug($this->input('name')),
         ]);
     }

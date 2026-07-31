@@ -1,5 +1,10 @@
 @props(['name', 'label' => null, 'value' => null])
 
+@php
+    $rawVal = old($name, $value ?? "");
+    $cleanValue = is_string($rawVal) ? htmlspecialchars_decode(htmlspecialchars_decode($rawVal, ENT_QUOTES), ENT_QUOTES) : $rawVal;
+@endphp
+
 <div>
     @if ($label)
         <label for="{{ $name }}"
@@ -7,12 +12,12 @@
     @endif
     <div class="relative">
         @if (isset($iconSlot))
-            <div class="absolute top-3.5 left-0 pl-4 flex items-start pointer-events-none text-gray-400 dark:text-gray-500">
+            <div class="absolute top-3.5 left-0 pl-4 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
                 {{ $iconSlot }}
             </div>
         @endif
         <textarea name="{{ $name }}" id="{{ $name }}"
-            {{ $attributes->merge(['class' => 'block w-full rounded-xl border border-transparent bg-gray-50 dark:bg-gray-800/80 text-gray-900 dark:text-white shadow-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 py-3.5 transition-all duration-200 ' . (isset($iconSlot) ? 'pl-11 pr-4' : 'px-4')]) }}>{!! $cleanValue !!}</textarea>
+            {{ $attributes->merge(['class' => 'block w-full rounded-xl border border-transparent bg-gray-50 dark:bg-gray-800/80 text-gray-900 dark:text-white shadow-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 py-3.5 transition-all duration-200 ' . (isset($iconSlot) ? 'pl-11 pr-4' : 'px-4')]) }}>{{ $cleanValue }}</textarea>
     </div>
     @error($name)
         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>

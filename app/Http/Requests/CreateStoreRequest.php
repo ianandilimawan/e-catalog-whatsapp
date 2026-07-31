@@ -18,6 +18,8 @@ class CreateStoreRequest extends FormRequest
     {
         $this->merge([
             'user_id' => $this->input('user_id') ?? auth()->id(),
+            'name' => $this->input('name') !== null ? strip_tags($this->input('name')) : null,
+            'welcome_message' => $this->input('welcome_message') !== null ? strip_tags($this->input('welcome_message')) : null,
             'slug' => $this->input('slug') ?: \Illuminate\Support\Str::slug($this->input('name')),
         ]);
     }
