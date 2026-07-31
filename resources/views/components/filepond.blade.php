@@ -174,22 +174,22 @@
 
     <!-- Modal Cropper -->
     <template x-teleport="body">
-        <div x-show="showCropper" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm" @keydown.escape.window="closeCropper()">
-            <div class="bg-white dark:bg-gray-900 rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-gray-100 dark:border-gray-800 flex flex-col max-h-[90vh]">
+        <div x-show="showCropper" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/80 backdrop-blur-md" @keydown.escape.window="closeCropper()">
+            <div class="bg-white dark:bg-gray-900 rounded-3xl max-w-5xl w-full p-6 md:p-8 shadow-2xl border border-gray-100 dark:border-gray-800 flex flex-col max-h-[92vh]">
                 <div class="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
                     <div>
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L7.121 7.121m5.758 4.879L7 17"></path></svg>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L7.121 7.121m5.758 4.879L7 17"></path></svg>
                             Atur Posisi & Potongan Gambar
                         </h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Geser, perbesar (zoom), atau pilih posisi gambar sesuai rasio yang diinginkan.</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Geser, perbesar (zoom), atau pilih posisi gambar sesuai rasio yang diinginkan.</p>
                     </div>
-                    <button type="button" @click="closeCropper()" class="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-lg">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <button type="button" @click="closeCropper()" class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
 
-                <div class="my-4 flex-1 overflow-hidden min-h-[300px] max-h-[450px] bg-gray-950 rounded-xl flex items-center justify-center relative">
+                <div class="my-4 flex-1 overflow-hidden min-h-[380px] md:min-h-[520px] max-h-[65vh] bg-gray-950 rounded-2xl flex items-center justify-center relative shadow-inner">
                     <img x-ref="cropperImage" :src="cropImageSrc" class="max-w-full max-h-full block" alt="Crop Target">
                 </div>
 

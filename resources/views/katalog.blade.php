@@ -68,11 +68,11 @@ if (
     </style>
 </head>
 
-<body class="antialiased" x-data="catalogApp()" :class="{'overflow-hidden': isProductModalOpen || isCheckoutModalOpen}">
+<body class="antialiased min-h-screen flex flex-col justify-between" x-data="catalogApp()" :class="{'overflow-hidden': isProductModalOpen || isCheckoutModalOpen}">
 
     <!-- Banner (Scrollable) -->
     @if ($store->banner)
-        <div class="h-56 md:h-64 w-full bg-cover bg-center"
+        <div class="w-full aspect-[3/1] max-h-[380px] bg-cover bg-center shadow-sm"
             style="background-image: url('{{ str_starts_with($store->banner, 'http') ? $store->banner : Storage::url($store->banner) }}');">
         </div>
     @endif
@@ -93,7 +93,7 @@ if (
             <div>
                 <h1 class="text-xl font-bold">{{ $store->name }}</h1>
                 @if ($store->welcome_message)
-                    <p class="text-sm opacity-90 truncate max-w-[250px]">{{ $store->welcome_message }}</p>
+                    <p class="text-sm opacity-90 truncate max-w-[250px]">{{ htmlspecialchars_decode($store->welcome_message, ENT_QUOTES) }}</p>
                 @endif
                 <p class="text-xs opacity-75 mt-0.5">{{ $products->total() }} Produk</p>
             </div>
@@ -107,7 +107,7 @@ if (
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-5xl mx-auto p-4" :class="totalItems > 0 ? 'pb-20' : 'pb-4'">
+    <main class="max-w-5xl w-full mx-auto p-4 flex-1 flex flex-col" :class="totalItems > 0 ? 'pb-20' : 'pb-4'">
 
         <!-- Category Filter -->
         <div class="flex overflow-x-auto gap-2 py-4 no-scrollbar" x-show="allProducts.length > 0" style="display: none;">
@@ -118,7 +118,7 @@ if (
             </button>
             @foreach ($categories as $category)
                 <button @click="selectedCategory = {{ $category->id }}"
-                    :class="selectedCategory === {{ $category->id }} ? 'bg-primary text-white' : 'card-custom border'"
+                    :class="selectedCategory == {{ $category->id }} ? 'bg-primary text-white' : 'card-custom border'"
                     class="px-4 py-2 rounded-full whitespace-nowrap text-sm font-semibold transition">
                     {{ $category->name }}
                 </button>
@@ -126,7 +126,7 @@ if (
         </div>
 
         <!-- Product Grid -->
-        <div x-show="allProducts.length === 0" style="display: none;" class="flex flex-col items-center justify-center py-20 text-center px-4 mt-8">
+        <div x-show="allProducts.length === 0" style="display: none;" class="flex-1 flex flex-col items-center justify-center py-16 text-center px-4 my-auto">
             <div class="w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 opacity-50">
                 <svg class="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
             </div>
