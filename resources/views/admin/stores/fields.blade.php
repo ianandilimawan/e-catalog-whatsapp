@@ -79,7 +79,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div>
-                <x-filepond name="logo" label="Store Logo" aspectRatio="1:1" :defaultFile="isset($fileUrls['logo']) ? $fileUrls['logo'] : null" />
+                <x-filepond name="logo" label="Store Logo" :defaultFile="isset($fileUrls['logo']) ? $fileUrls['logo'] : null" />
                 <p class="text-xs text-gray-500 mt-2"><i class="fa fa-info-circle mr-1"></i> Rekomendasi: Gunakan gambar
                     persegi (rasio 1:1) misal 500x500px.</p>
             </div>
