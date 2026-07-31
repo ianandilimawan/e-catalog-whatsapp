@@ -239,21 +239,14 @@ if (
 
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Nama Lengkap</label>
+                    <label class="block text-sm font-semibold mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
                     <input type="text" x-model="customer.name" class="w-full border rounded-lg p-2 card-custom"
                         placeholder="Nama Anda">
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Alamat Pengiriman</label>
-                    <textarea x-model="customer.address" class="w-full border rounded-lg p-2 card-custom" rows="3"
-                        placeholder="Alamat lengkap"></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-1">Metode Pengiriman</label>
-                    <select x-model="customer.shipping" class="w-full border rounded-lg p-2 card-custom">
-                        <option value="Ambil di Toko">Ambil di Toko</option>
-                        <option value="Kirim via Kurir">Kirim via Kurir / Ojol</option>
-                    </select>
+                    <label class="block text-sm font-semibold mb-1">Catatan Pesanan <span class="text-xs text-gray-400 font-normal">(Opsional)</span></label>
+                    <textarea x-model="customer.notes" class="w-full border rounded-lg p-2 card-custom" rows="3"
+                        placeholder="Catatan tambahan, alamat, atau request khusus..."></textarea>
                 </div>
 
                 <button @click="processWhatsApp('{{ $store->wa_number }}')"
@@ -396,8 +389,7 @@ if (
                 activeProduct: null,
                 customer: {
                     name: '',
-                    address: '',
-                    shipping: 'Kirim via Kurir'
+                    notes: ''
                 },
 
                 init() {
@@ -503,8 +495,8 @@ if (
                 },
 
                 processWhatsApp(waNumber) {
-                    if (!this.customer.name || !this.customer.address) {
-                        alert('Mohon isi nama dan alamat pengiriman!');
+                    if (!this.customer.name || !this.customer.name.trim()) {
+                        alert('Mohon isi nama lengkap Anda!');
                         return;
                     }
 
@@ -518,11 +510,12 @@ if (
 
                     text += `\n*Total Harga: Rp ${this.formatRupiah(this.totalPrice)}*\n\n`;
 
-                    text += `*Data Pengiriman:*\n`;
-                    text += `Nama: ${this.customer.name}\n`;
-                    text += `Alamat: ${this.customer.address}\n`;
-                    text += `Pengiriman: ${this.customer.shipping}\n\n`;
-                    text += `Mohon segera diproses ya, terima kasih!`;
+                    text += `*Data Pemesan:*\n`;
+                    text += `Nama: ${this.customer.name.trim()}\n`;
+                    if (this.customer.notes && this.customer.notes.trim()) {
+                        text += `Catatan: ${this.customer.notes.trim()}\n`;
+                    }
+                    text += `\nMohon segera diproses ya, terima kasih!`;
 
                     let encodedText = encodeURIComponent(text);
 
