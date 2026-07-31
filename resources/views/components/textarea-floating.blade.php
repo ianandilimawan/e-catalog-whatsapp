@@ -8,6 +8,8 @@
 ])
 
 @php
+    $rawVal = old($name, $value ?? "");
+    $cleanValue = is_string($rawVal) ? htmlspecialchars(htmlspecialchars_decode(htmlspecialchars_decode($rawVal, ENT_QUOTES), ENT_QUOTES), ENT_QUOTES, "UTF-8", false) : $rawVal;
     $id = $id ?? $name;
     $isReadonly = $attributes->has('readonly') || $attributes->has('disabled');
     $baseClasses = 'block px-4 pb-3 pt-4 w-full text-base text-gray-900 rounded-xl border appearance-none dark:text-white peer transition-colors';
@@ -23,7 +25,7 @@
 
 <div class="relative">
     <textarea name="{{ $name }}" id="{{ $id }}" rows="{{ $rows }}" {{ $required ? 'required' : '' }} placeholder=" " {{ $isReadonly ? 'readonly' : '' }}
-        {{ $attributes->merge(['class' => $mergedClasses]) }}>{{ $value }}</textarea>
+        {{ $attributes->merge(['class' => $mergedClasses]) }}>{!! $cleanValue !!}</textarea>
     <label for="{{ $id }}" class="{{ $mergedLabelClasses }}">{{ $label }}</label>
     @error($name)
         <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>

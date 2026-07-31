@@ -44,6 +44,12 @@ class ProductTable extends PowerGridComponent
     {
         $query = Product::query()->with('category');
 
+        if (auth()->user() && auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
+            $query->whereHas('store', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
         if (Schema::hasColumn('products', 'sort')) {
             $query->orderBy('sort', 'asc');
         }

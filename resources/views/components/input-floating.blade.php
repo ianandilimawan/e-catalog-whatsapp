@@ -11,6 +11,8 @@
 ])
 
 @php
+    $rawVal = old($name, $value ?? "");
+    $cleanValue = is_string($rawVal) ? htmlspecialchars(htmlspecialchars_decode(htmlspecialchars_decode($rawVal, ENT_QUOTES), ENT_QUOTES), ENT_QUOTES, "UTF-8", false) : $rawVal;
     $id = $id ?? $name;
     $isReadonly = $readonly || $attributes->has('readonly') || $attributes->has('disabled');
     $baseClasses = 'block px-4 pb-2.5 pt-4.5 w-full text-base text-gray-900 rounded-xl border appearance-none dark:text-white peer transition-colors';
@@ -25,7 +27,7 @@
 @endphp
 
 <div class="relative {{ $class }}">
-    <input type="{{ $type }}" name="{{ $name }}" id="{{ $id }}" value="{{ $value }}" {{ $required ? 'required' : '' }} placeholder=" " {{ $isCurrency ? 'data-currency' : '' }} {{ $isReadonly ? 'readonly' : '' }}
+    <input type="{{ $type }}" name="{{ $name }}" id="{{ $id }}" value="{!! $cleanValue !!}" {{ $required ? 'required' : '' }} placeholder=" " {{ $isCurrency ? 'data-currency' : '' }} {{ $isReadonly ? 'readonly' : '' }}
         {{ $attributes->merge(['class' => $mergedClasses]) }} />
     <label for="{{ $id }}" class="{{ $mergedLabelClasses }}">{{ $label }}</label>
     @error($name)

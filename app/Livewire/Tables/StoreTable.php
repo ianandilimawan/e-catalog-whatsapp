@@ -44,6 +44,10 @@ class StoreTable extends PowerGridComponent
     {
         $query = Store::query();
 
+        if (auth()->user() && auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
+            $query->where('user_id', auth()->id());
+        }
+
         if (Schema::hasColumn('stores', 'sort')) {
             $query->orderBy('sort', 'asc');
         }

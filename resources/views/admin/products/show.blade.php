@@ -37,8 +37,8 @@
                 </div>
             </div>
 
-            @if (auth()->user()->hasPermission('edit-productss'))
-                <a href="{{ route('edit-productss', $product) }}"
+            @if (auth()->user()->hasPermission('edit-products'))
+                <a href="{{ route('admin.products.edit', $product) }}"
                     class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors text-sm font-semibold shadow-sm hover:shadow-md">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -59,7 +59,7 @@
                 <div
                     class="border border-gray-100 dark:border-gray-800 rounded-xl overflow-hidden divide-y divide-gray-100 dark:divide-gray-800">
                     <dl class="mb-0">
-                        <div
+                        {{-- <div
                             class="lg:px-6 px-4 lg:py-4 py-3 flex flex-col lg:flex-row lg:items-center hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                             <dt class="lg:w-1/3 text-sm font-medium text-gray-500 dark:text-gray-400">
                                 Store id
@@ -67,14 +67,14 @@
                             <dd class="mt-1 lg:mt-0 lg:w-2/3 text-sm text-gray-900 dark:text-white font-medium">
                                 {{ $product->store_id ?? 'N/A' }}
                             </dd>
-                        </div>
+                        </div> --}}
                         <div
                             class="lg:px-6 px-4 lg:py-4 py-3 flex flex-col lg:flex-row lg:items-center hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                             <dt class="lg:w-1/3 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                Category id
+                                Category
                             </dt>
                             <dd class="mt-1 lg:mt-0 lg:w-2/3 text-sm text-gray-900 dark:text-white font-medium">
-                                {{ $product->category_id ?? 'N/A' }}
+                                {{ $product->category->name ?? 'N/A' }}
                             </dd>
                         </div>
                         <div
@@ -86,7 +86,7 @@
                                 {{ $product->name ?? 'N/A' }}
                             </dd>
                         </div>
-                        <div
+                        {{-- <div
                             class="lg:px-6 px-4 lg:py-4 py-3 flex flex-col lg:flex-row lg:items-center hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                             <dt class="lg:w-1/3 text-sm font-medium text-gray-500 dark:text-gray-400">
                                 Slug
@@ -94,7 +94,7 @@
                             <dd class="mt-1 lg:mt-0 lg:w-2/3 text-sm text-gray-900 dark:text-white font-medium">
                                 {{ $product->slug ?? 'N/A' }}
                             </dd>
-                        </div>
+                        </div> --}}
                         <div
                             class="lg:px-6 px-4 lg:py-4 py-3 flex flex-col lg:flex-row lg:items-center hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                             <dt class="lg:w-1/3 text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -110,7 +110,7 @@
                                 Price
                             </dt>
                             <dd class="mt-1 lg:mt-0 lg:w-2/3 text-sm text-gray-900 dark:text-white font-medium">
-                                {{ $product->price ?? 'N/A' }}
+                                Rp{{ number_format($product->price, 0) }}
                             </dd>
                         </div>
                         <div
@@ -124,9 +124,9 @@
                                         $fileUrl = \App\Services\FileUploadService::getFileUrl($product->image);
                                     @endphp
                                     @if ($fileUrl)
-                                        <div class="flex items-center justify-center w-full py-4">
+                                        <div class="flex items-left justify-left w-full py-4">
                                             <img src="{{ $fileUrl }}" alt="Image"
-                                                class="max-w-full max-h-96 object-contain mx-auto rounded-lg shadow-md">
+                                                class="max-w-full max-h-96 object-contain rounded-lg shadow-md">
                                         </div>
                                     @else
                                         N/A

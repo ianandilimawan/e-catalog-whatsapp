@@ -26,7 +26,7 @@ class StoreController extends Controller
 
     public function index()
     {
-        if (auth()->user()->hasRole('admin-toko')) {
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
             $store = Store::where('user_id', auth()->id())->first();
             if ($store) {
                 return redirect()->route('admin.stores.edit', $store->id);
@@ -39,7 +39,7 @@ class StoreController extends Controller
 
     public function create()
     {
-        if (auth()->user()->hasRole('admin-toko')) {
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
             $storeCount = Store::where('user_id', auth()->id())->count();
             if ($storeCount >= 1) {
                 return redirect()->route('admin.stores.index')->with('error', 'You can only have 1 store.');
@@ -55,7 +55,7 @@ class StoreController extends Controller
 
     public function store(CreateStoreRequest $request)
     {
-        if (auth()->user()->hasRole('admin-toko')) {
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
             $storeCount = Store::where('user_id', auth()->id())->count();
             if ($storeCount >= 1) {
                 if ($request->wantsJson()) {
@@ -89,13 +89,13 @@ class StoreController extends Controller
 
     public function show(Store $store)
     {
-        if (auth()->user()->hasRole('admin-toko') && $store->user_id !== auth()->id()) abort(403, 'Unauthorized');
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin']) && $store->user_id !== auth()->id()) abort(403, 'Unauthorized');
         return view('admin.stores.show', compact('store'));
     }
 
     public function edit(Store $store)
     {
-        if (auth()->user()->hasRole('admin-toko') && $store->user_id !== auth()->id()) abort(403, 'Unauthorized');
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin']) && $store->user_id !== auth()->id()) abort(403, 'Unauthorized');
 
         $fileUrls = $this->getFileUrls(Store::class, $store);
         $users = \App\Models\User::pluck('name', 'id');
@@ -105,7 +105,7 @@ class StoreController extends Controller
 
     public function update(UpdateStoreRequest $request, Store $store)
     {
-        if (auth()->user()->hasRole('admin-toko') && $store->user_id !== auth()->id()) abort(403, 'Unauthorized');
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin']) && $store->user_id !== auth()->id()) abort(403, 'Unauthorized');
 
         $data = $request->validated();
 
@@ -130,7 +130,7 @@ class StoreController extends Controller
 
     public function destroy(Store $store)
     {
-        if (auth()->user()->hasRole('admin-toko') && $store->user_id !== auth()->id()) abort(403, 'Unauthorized');
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin']) && $store->user_id !== auth()->id()) abort(403, 'Unauthorized');
 
         $this->deleteAssociatedFiles(Store::class, $store);
 

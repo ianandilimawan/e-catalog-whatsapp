@@ -4,7 +4,7 @@
 
 <x-input-floating type="text" name="name" label="Name" value="{{ $category->name ?? '' }}" />
 
-<x-input-floating type="text" name="slug" label="Slug" value="{{ $category->slug ?? '' }}" />
+<input type="hidden" name="slug" value="{{ $category->slug ?? '' }}">
 
 
 @push('scripts')

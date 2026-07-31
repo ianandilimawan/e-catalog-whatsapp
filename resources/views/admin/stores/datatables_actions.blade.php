@@ -3,7 +3,7 @@
     class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-3">View</a>
 @endif
 @if(auth()->user() && auth()->user()->hasPermission('edit-stores'))
-<a href="{{ route('edit-stores', $id) }}"
+<a href="{{ route('admin.stores.edit', $id) }}"
     class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-3">Edit</a>
 @endif
 @if(auth()->user() && auth()->user()->hasPermission('delete-stores'))

@@ -35,7 +35,7 @@ class CategoryController extends Controller
         $fileUrls = $this->getFileUrls(Category::class);
         
         $storesQuery = \App\Models\Store::query();
-        if (auth()->user()->hasRole('admin-toko')) {
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
             $storesQuery->where('user_id', auth()->id());
         }
         $stores = $storesQuery->pluck('name', 'id');
@@ -47,7 +47,7 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
         
-        if (auth()->user()->hasRole('admin-toko')) {
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
             $store = \App\Models\Store::find($data['store_id']);
             if (!$store || $store->user_id !== auth()->id()) abort(403, 'Unauthorized store selection');
         }
@@ -71,18 +71,18 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        if (auth()->user()->hasRole('admin-toko') && $category->store->user_id !== auth()->id()) abort(403, 'Unauthorized');
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin']) && $category->store->user_id !== auth()->id()) abort(403, 'Unauthorized');
         return view('admin.categories.show', compact('category'));
     }
 
     public function edit(Category $category)
     {
-        if (auth()->user()->hasRole('admin-toko') && $category->store->user_id !== auth()->id()) abort(403, 'Unauthorized');
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin']) && $category->store->user_id !== auth()->id()) abort(403, 'Unauthorized');
 
         $fileUrls = $this->getFileUrls(Category::class, $category);
         
         $storesQuery = \App\Models\Store::query();
-        if (auth()->user()->hasRole('admin-toko')) {
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
             $storesQuery->where('user_id', auth()->id());
         }
         $stores = $storesQuery->pluck('name', 'id');
@@ -92,11 +92,11 @@ class CategoryController extends Controller
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        if (auth()->user()->hasRole('admin-toko') && $category->store->user_id !== auth()->id()) abort(403, 'Unauthorized');
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin']) && $category->store->user_id !== auth()->id()) abort(403, 'Unauthorized');
 
         $data = $request->validated();
         
-        if (auth()->user()->hasRole('admin-toko')) {
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
             $store = \App\Models\Store::find($data['store_id']);
             if (!$store || $store->user_id !== auth()->id()) abort(403, 'Unauthorized store selection');
         }
@@ -122,7 +122,7 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        if (auth()->user()->hasRole('admin-toko') && $category->store->user_id !== auth()->id()) abort(403, 'Unauthorized');
+        if (auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin']) && $category->store->user_id !== auth()->id()) abort(403, 'Unauthorized');
 
         $this->deleteAssociatedFiles(Category::class, $category);
 

@@ -44,6 +44,12 @@ class CategoryTable extends PowerGridComponent
     {
         $query = Category::query();
 
+        if (auth()->user() && auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
+            $query->whereHas('store', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
         if (Schema::hasColumn('categories', 'sort')) {
             $query->orderBy('sort', 'asc');
         }
@@ -88,7 +94,7 @@ class CategoryTable extends PowerGridComponent
                 ->bodyAttribute('text-center'),
 
             Column::make('Name', 'name')->sortable()->searchable(),
-            Column::make('Slug', 'slug')->sortable()->searchable(),
+            // Column::make('Slug', 'slug')->sortable()->searchable(),
             Column::make('Actions', 'action')
                 ->headerAttribute('text-center')
                 ->bodyAttribute('text-center')
@@ -98,9 +104,7 @@ class CategoryTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     #[\Livewire\Attributes\On('triggerBulkDelete')]

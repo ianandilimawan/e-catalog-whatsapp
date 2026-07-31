@@ -15,7 +15,7 @@ class EnsureHasStore
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->hasRole('admin-toko')) {
+        if (auth()->check() && auth()->user()->hasRole('admin-toko') && !auth()->user()->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
             $allowedRoutes = [
                 'admin.logout',
                 'admin.stores.index',
