@@ -79,14 +79,14 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div>
-                <x-filepond name="logo" label="Store Logo" :defaultFile="isset($fileUrls['logo']) ? $fileUrls['logo'] : null" />
+                <x-filepond name="logo" label="Store Logo" aspectRatio="1:1" :defaultFile="isset($fileUrls['logo']) ? $fileUrls['logo'] : null" />
                 <p class="text-xs text-gray-500 mt-2"><i class="fa fa-info-circle mr-1"></i> Rekomendasi: Gunakan gambar
                     persegi (rasio 1:1) misal 500x500px.</p>
             </div>
             <div>
-                <x-filepond name="banner" label="Store Banner" :defaultFile="isset($fileUrls['banner']) ? $fileUrls['banner'] : null" />
+                <x-filepond name="banner" label="Store Banner" aspectRatio="3:1" :defaultFile="isset($fileUrls['banner']) ? $fileUrls['banner'] : null" />
                 <p class="text-xs text-gray-500 mt-2"><i class="fa fa-info-circle mr-1"></i> Rekomendasi: Gunakan gambar
-                    persegi panjang (rasio 3:1) misal 1200x400px.</p>
+                    persegi panjang (rasio 3:1) misal 1200x400px. Bisa digeser untuk mengatur posisi.</p>
             </div>
         </div>
 
