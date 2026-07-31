@@ -16,9 +16,13 @@ class CreateProductRequest extends FormRequest
 
     protected function prepareForValidation()
     {
+        $rawPrice = $this->input('price');
+        $cleanPrice = ($rawPrice !== null && $rawPrice !== '') ? (int) preg_replace('/\D/', '', (string) $rawPrice) : null;
+
         $this->merge([
             'store_id' => $this->input('store_id') ?? (auth()->user()->store->id ?? null),
             'slug' => $this->input('slug') ?: \Illuminate\Support\Str::slug($this->input('name')),
+            'price' => $cleanPrice,
         ]);
     }
 
