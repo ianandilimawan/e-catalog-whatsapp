@@ -1,4 +1,5 @@
-            <header class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 z-40">
+            <header
+                class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 z-40">
                 <div class="flex items-center h-16 px-6 justify-between">
                     <button id="toggleSidebar"
                         class="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white focus:outline-none transition-colors">
@@ -14,7 +15,7 @@
                         </button>
 
                         <!-- Notifications -->
-                        <div class="relative" x-data="{ open: false }" @click.outside="open = false">
+                        {{-- <div class="relative" x-data="{ open: false }" @click.outside="open = false">
                             <button @click="open = !open"
                                 class="relative p-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 focus:outline-none transition-colors duration-200">
                                 <x-heroicon-o-bell class="w-5 h-5" />
@@ -26,7 +27,7 @@
                             </button>
 
                             <!-- Dropdown Menu -->
-                            <div x-show="open" 
+                            <div x-show="open"
                                 x-transition:enter="transition ease-out duration-200"
                                 x-transition:enter-start="opacity-0 scale-95"
                                 x-transition:enter-end="opacity-100 scale-100"
@@ -91,7 +92,7 @@
                                     </div>
                                 </a>
                             </div>
-                        </div>
+                        </div> --}}
 
 
                         <!-- Logout -->
