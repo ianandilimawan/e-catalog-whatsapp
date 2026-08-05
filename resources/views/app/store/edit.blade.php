@@ -33,7 +33,8 @@
         </div>
 
         <!-- 1. Store Preview Card -->
-        <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm">
+        <div
+            class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm">
             <!-- Banner Preview (Taller on Desktop) -->
             <div class="h-28 md:h-40 lg:h-48 bg-gradient-to-r from-emerald-600 to-teal-700 relative overflow-hidden group">
                 <template x-if="bannerPreview">
@@ -49,13 +50,14 @@
                     <span>Geser / Crop Banner</span>
                 </button>
             </div>
-            
+
             <!-- Store Profile Info Container -->
             <div class="px-4 md:px-6 pb-4 md:pb-5 relative">
                 <!-- Logo Frame (Overlapping Banner) -->
                 <div class="flex items-end justify-between">
                     <div class="-mt-8 md:-mt-10 mb-2 relative z-10">
-                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl border-4 border-white dark:border-zinc-900 bg-white dark:bg-zinc-800 overflow-hidden shadow-md flex items-center justify-center font-bold text-xl md:text-2xl text-zinc-700 dark:text-zinc-300 relative group">
+                        <div
+                            class="w-16 h-16 md:w-20 md:h-20 rounded-2xl border-4 border-white dark:border-zinc-900 bg-white dark:bg-zinc-800 overflow-hidden shadow-md flex items-center justify-center font-bold text-xl md:text-2xl text-zinc-700 dark:text-zinc-300 relative group">
                             <template x-if="logoPreview">
                                 <img :src="logoPreview" class="w-full h-full object-cover" />
                             </template>
@@ -71,7 +73,8 @@
 
                 <!-- Store Text Details (High Contrast in Card Body) -->
                 <div class="mt-1 min-w-0">
-                    <h3 class="text-base md:text-xl font-bold text-zinc-900 dark:text-white leading-tight truncate">{{ $store->name }}</h3>
+                    <h3 class="text-base md:text-xl font-bold text-zinc-900 dark:text-white leading-tight truncate">
+                        {{ $store->name }}</h3>
                     <p class="text-xs md:text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">wa.me/{{ $store->wa_number }}</p>
                 </div>
             </div>
@@ -203,10 +206,12 @@
         </div>
 
         <!-- 4. Tracking & SEO Section -->
-        <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 md:p-6 shadow-sm space-y-4">
+        <div
+            class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 md:p-6 shadow-sm space-y-4">
             <div>
                 <h3 class="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Tracking & SEO</h3>
-                <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-0.5">Hubungkan katalog kamu ke Google Analytics & Meta Pixel untuk tracking pengunjung.</p>
+                <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-0.5">Hubungkan katalog kamu ke Google Analytics &
+                    Meta Pixel untuk tracking pengunjung.</p>
             </div>
 
             <!-- Google Analytics ID -->
@@ -215,11 +220,13 @@
                     Google Analytics ID
                 </label>
                 <input type="text" name="google_analytics_id"
-                       value="{{ old('google_analytics_id', $store->google_analytics_id) }}"
-                       placeholder="G-XXXXXXXXXX"
-                       class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-mono font-medium focus:outline-none focus:border-emerald-500" />
-                <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Contoh: G-AB1CD2EF3G. Dapatkan di <span class="font-semibold">analytics.google.com</span></p>
-                @error('google_analytics_id') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                    value="{{ old('google_analytics_id', $store->google_analytics_id) }}" placeholder="G-XXXXXXXXXX"
+                    class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-mono font-medium focus:outline-none focus:border-emerald-500" />
+                <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Contoh: G-AB1CD2EF3G. Dapatkan di <span
+                        class="font-semibold">analytics.google.com</span></p>
+                @error('google_analytics_id')
+                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Meta Pixel ID -->
@@ -227,12 +234,14 @@
                 <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-1.5">
                     Meta (Facebook) Pixel ID
                 </label>
-                <input type="text" name="meta_pixel_id"
-                       value="{{ old('meta_pixel_id', $store->meta_pixel_id) }}"
-                       placeholder="123456789012345"
-                       class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-mono font-medium focus:outline-none focus:border-emerald-500" />
-                <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Contoh: 123456789012345. Dapatkan di <span class="font-semibold">business.facebook.com</span></p>
-                @error('meta_pixel_id') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                <input type="text" name="meta_pixel_id" value="{{ old('meta_pixel_id', $store->meta_pixel_id) }}"
+                    placeholder="123456789012345"
+                    class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-mono font-medium focus:outline-none focus:border-emerald-500" />
+                <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Contoh: 123456789012345. Dapatkan di <span
+                        class="font-semibold">business.facebook.com</span></p>
+                @error('meta_pixel_id')
+                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Google Search Console -->
@@ -241,11 +250,15 @@
                     Kode Verifikasi Google Search Console
                 </label>
                 <input type="text" name="google_search_console_code"
-                       value="{{ old('google_search_console_code', $store->google_search_console_code) }}"
-                       placeholder="abc123def456..."
-                       class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-mono font-medium focus:outline-none focus:border-emerald-500" />
-                <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Isi bagian <code class="bg-zinc-200 dark:bg-zinc-700 px-1 rounded text-[10px]">content="..."</code> dari meta tag verifikasi.</p>
-                @error('google_search_console_code') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                    value="{{ old('google_search_console_code', $store->google_search_console_code) }}"
+                    placeholder="abc123def456..."
+                    class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-mono font-medium focus:outline-none focus:border-emerald-500" />
+                <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Isi bagian <code
+                        class="bg-zinc-200 dark:bg-zinc-700 px-1 rounded text-[10px]">content="..."</code> dari meta tag
+                    verifikasi.</p>
+                @error('google_search_console_code')
+                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-4">
@@ -256,12 +269,11 @@
                     <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-1.5">
                         Judul SEO (Custom Title)
                     </label>
-                    <input type="text" name="seo_title"
-                           value="{{ old('seo_title', $store->seo_title) }}"
-                           placeholder="{{ $store->name }} - Katalogin"
-                           maxlength="120"
-                           class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-medium focus:outline-none focus:border-emerald-500" />
-                    <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Muncul di tab browser & hasil pencarian Google. Maks 120 karakter.</p>
+                    <input type="text" name="seo_title" value="{{ old('seo_title', $store->seo_title) }}"
+                        placeholder="{{ $store->name }} - Katalogin" maxlength="120"
+                        class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-medium focus:outline-none focus:border-emerald-500" />
+                    <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Muncul di tab browser & hasil pencarian
+                        Google. Maks 120 karakter.</p>
                 </div>
 
                 <!-- SEO Description -->
@@ -269,11 +281,11 @@
                     <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-1.5">
                         Deskripsi SEO
                     </label>
-                    <textarea name="seo_description" rows="2"
-                              placeholder="Pesan langsung kopi terbaik di Bandung via WhatsApp..."
-                              maxlength="300"
-                              class="w-full p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-normal focus:outline-none focus:border-emerald-500">{{ old('seo_description', $store->seo_description) }}</textarea>
-                    <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Muncul di bawah judul di Google. Maks 300 karakter.</p>
+                    <textarea name="seo_description" rows="2" placeholder="Pesan langsung kopi terbaik di Bandung via WhatsApp..."
+                        maxlength="300"
+                        class="w-full p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-normal focus:outline-none focus:border-emerald-500">{{ old('seo_description', $store->seo_description) }}</textarea>
+                    <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Muncul di bawah judul di Google. Maks 300
+                        karakter.</p>
                 </div>
 
                 <!-- CTA Button Text -->
@@ -282,95 +294,154 @@
                         Teks Tombol Pesan
                     </label>
                     <input type="text" name="cta_button_text"
-                           value="{{ old('cta_button_text', $store->cta_button_text) }}"
-                           placeholder="+ Add"
-                           maxlength="50"
-                           class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-medium focus:outline-none focus:border-emerald-500" />
-                    <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Contoh: "Pesan Sekarang", "Booking", "Hubungi Kami". Kosongkan untuk default "+ Add".</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 5. Share Section -->
-        <div
-            class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 md:p-6 shadow-sm space-y-3">
-            <h3 class="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Link Katalog Toko</h3>
-            @php
-                $catalogUrl = route('catalog.show', $store->slug);
-            @endphp
-            <div class="flex items-center gap-2">
-                <input type="text" readonly value="{{ $catalogUrl }}"
-                    class="flex-1 h-11 px-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700" />
-                <button type="button" @click="copyLink('{{ $catalogUrl }}')"
-                    class="px-4 h-11 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-md hover:bg-emerald-700 transition-colors">
-                    Salin
-                </button>
-            </div>
-        </div>
-
-        <!-- 5. Sticky Save Bar (Container Width Scaled) -->
-        <div
-            class="fixed bottom-[64px] lg:bottom-0 inset-x-0 z-30 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-lg border-t border-zinc-200 dark:border-zinc-800 py-3 shadow-lg">
-            <div class="px-4 md:px-6 lg:px-8 max-w-md md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mx-auto flex justify-end">
-                <button type="submit"
-                    class="w-full md:w-auto md:px-16 h-[48px] rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold text-base shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all">
-                    💾 Simpan Pengaturan Toko
-                </button>
-            </div>
-        </div>
-
-        <!-- Cropper Modal -->
-        <template x-teleport="body">
-            <div x-show="showCropper" x-cloak
-                class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
-                @keydown.escape.window="closeCropper()">
-                <div
-                    class="bg-white dark:bg-zinc-900 rounded-3xl max-w-3xl w-full p-5 md:p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col max-h-[92vh]">
-                    <!-- Modal Header -->
-                    <div class="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
-                        <div>
-                            <h3
-                                class="text-base md:text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                                {{-- <span>✂️</span> --}}
-                                <span
-                                    x-text="cropType === 'banner' ? 'Geser & Crop Banner Toko (3:1)' : 'Geser & Crop Logo Toko (1:1)'"></span>
-                            </h3>
-                            <p class="text-xs text-zinc-500 dark:text-zinc-400">Geser atau perbesar gambar agar sesuai
-                                dengan tampilan yang diinginkan.</p>
+                        value="{{ old('cta_button_text', $store->cta_button_text) }}" placeholder="+ Add"
+                        @error('cta_button_text') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                         </div>
-                        <button type="button" @click="closeCropper()"
-                            class="p-2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 rounded-xl">
-                            ✕
+                </div>
+
+                <!-- 5. Link & QR Code Toko Section -->
+                <div
+                    class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 md:p-6 shadow-sm space-y-4">
+                    <div>
+                        <h3 class="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Link & QR
+                            Code Katalog Toko</h3>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Bagikan link atau cetak QR Code toko
+                            Anda untuk ditempel di meja/kasir.</p>
+                    </div>
+
+                    @php
+                        $catalogUrl = route('catalog.show', $store->slug);
+                        $qrCodeUrl =
+                            'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' . urlencode($catalogUrl);
+                        $logoUrl = $store->logo ? \App\Services\FileUploadService::getFileUrl($store->logo) : '';
+                    @endphp
+
+                    <!-- Link Box -->
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                        <input type="text" readonly value="{{ $catalogUrl }}"
+                            class="flex-1 h-11 px-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700" />
+                        <div class="flex items-center gap-2">
+                            <button type="button" @click="copyLink('{{ $catalogUrl }}')"
+                                class="flex-1 sm:flex-none px-4 h-11 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-md hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 002-2h2a2 2 0 002-2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
+                                    </path>
+                                </svg>
+                                <span>Salin Link</span>
+                            </button>
+                            <a href="{{ $catalogUrl }}" target="_blank"
+                                class="px-4 h-11 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors flex items-center justify-center gap-1">
+                                <span>Buka</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                    </path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- QR Code Card Box -->
+                    <div
+                        class="pt-4 border-t border-zinc-200/80 dark:border-zinc-800 flex flex-col md:flex-row items-center gap-5">
+                        <div
+                            class="w-36 h-36 bg-white p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-700 shadow-sm flex-shrink-0 flex items-center justify-center relative">
+                            <img src="{{ $qrCodeUrl }}" alt="QR Code {{ $store->name }}"
+                                class="w-full h-full object-contain">
+                        </div>
+                        <div class="flex-1 text-center md:text-left space-y-2">
+                            <h4 class="text-sm font-bold text-zinc-900 dark:text-white">Cetak QR Code / Poster Standee Toko
+                            </h4>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                                Cetak QR Code ini dan letakkan di meja kasir, flyer, atau banner toko Anda agar pembeli bisa
+                                langsung melakukan scan dan memilih produk lewat WhatsApp.
+                            </p>
+                            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5 pt-1">
+                                <button type="button"
+                                    @click="downloadQrCode('{{ $qrCodeUrl }}', 'QR-Code-{{ $store->slug }}.png')"
+                                    class="px-4 py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xs font-bold shadow hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                    </svg>
+                                    <span>Unduh Gambar QR</span>
+                                </button>
+                                <button type="button"
+                                    @click="printQrCard('{{ e($store->name) }}', '{{ $logoUrl }}', '{{ $qrCodeUrl }}', '{{ $catalogUrl }}')"
+                                    class="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow hover:bg-emerald-700 transition-colors flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+                                        </path>
+                                    </svg>
+                                    <span>Cetak Poster QR</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Sticky Save Bar (Container Width Scaled) -->
+                <div
+                    class="fixed bottom-[64px] lg:bottom-0 inset-x-0 z-30 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-lg border-t border-zinc-200 dark:border-zinc-800 py-3 shadow-lg">
+                    <div
+                        class="px-4 md:px-6 lg:px-8 max-w-md md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mx-auto flex justify-end">
+                        <button type="submit"
+                            class="w-full md:w-auto md:px-16 h-[48px] rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold text-base shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all">
+                            💾 Simpan Pengaturan Toko
                         </button>
                     </div>
+                </div>
 
-                    <!-- Cropper Canvas Container -->
-                    <div
-                        class="my-4 flex-1 overflow-hidden min-h-[300px] md:min-h-[420px] max-h-[60vh] bg-zinc-950 rounded-2xl flex items-center justify-center relative shadow-inner">
-                        <img x-ref="cropperImg" :src="cropImageSrc" class="max-w-full max-h-full block"
-                            alt="Crop Target">
-                    </div>
+                <!-- Cropper Modal -->
+                <template x-teleport="body">
+                    <div x-show="showCropper" x-cloak
+                        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+                        @keydown.escape.window="closeCropper()">
+                        <div
+                            class="bg-white dark:bg-zinc-900 rounded-3xl max-w-3xl w-full p-5 md:p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col max-h-[92vh]">
+                            <!-- Modal Header -->
+                            <div
+                                class="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                                <div>
+                                    <h3
+                                        class="text-base md:text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+                                        <span
+                                            x-text="cropType === 'banner' ? 'Geser & Crop Banner Toko (3:1)' : 'Geser & Crop Logo Toko (1:1)'"></span>
+                                    </h3>
+                                    <p class="text-xs text-zinc-500 dark:text-zinc-400">Geser atau perbesar gambar agar
+                                        sesuai
+                                        dengan tampilan yang diinginkan.</p>
+                                </div>
+                                <button type="button" @click="closeCropper()"
+                                    class="p-2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 rounded-xl">
+                                    ✕
+                                </button>
+                            </div>
 
-                    <!-- Modal Footer -->
-                    <div class="flex items-center justify-between pt-3 border-t border-zinc-200 dark:border-zinc-800">
-                        <span class="text-xs text-zinc-500 dark:text-zinc-400 hidden sm:inline">
-                            💡 Geser gambar atau scroll mouse untuk Zoom
-                        </span>
-                        <div class="flex items-center gap-3 ml-auto">
-                            <button type="button" @click="closeCropper()"
-                                class="px-4 py-2 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-colors">
-                                Batal
-                            </button>
-                            <button type="button" @click="applyCrop()"
-                                class="px-5 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-lg shadow-emerald-600/30 transition-all flex items-center gap-1.5">
-                                <span>✓</span>
-                                <span>Gunakan Posisi Ini</span>
-                            </button>
+                            <!-- Cropper Canvas Container -->
+                            <div
+                                class="my-4 flex-1 overflow-hidden min-h-[300px] md:min-h-[420px] max-h-[60vh] bg-zinc-950 rounded-2xl flex items-center justify-center relative shadow-inner">
+                                <img x-ref="cropperImg" :src="cropImageSrc" class="max-w-full max-h-full block"
+                                    alt="To Crop">
+                            </div>
+
+                            <!-- Modal Action Footer -->
+                            <div
+                                class="flex items-center justify-end gap-3 pt-3 border-t border-zinc-200 dark:border-zinc-800">
+                                <button type="button" @click="closeCropper()"
+                                    class="px-5 h-11 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+                                    Batal
+                                </button>
+                                <button type="button" @click="applyCrop()"
+                                    class="px-6 h-11 rounded-xl bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 transition-colors shadow-md shadow-emerald-600/30 flex items-center gap-2">
+                                    ✂️ Gunakan Hasil Crop
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </template>
+                </template>
     </form>
 
     <script>
@@ -525,8 +596,133 @@
 
                 copyLink(url) {
                     navigator.clipboard.writeText(url).then(() => {
-                        showAppToast('Link katalog disalin ke clipboard!', 'success');
+                        if (typeof showAppToast === 'function') {
+                            showAppToast('Link katalog disalin ke clipboard!', 'success');
+                        }
                     });
+                },
+
+                downloadQrCode(qrUrl, filename) {
+                    fetch(qrUrl)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = url;
+                            a.download = filename;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            if (typeof showAppToast === 'function') {
+                                showAppToast('QR Code berhasil diunduh!', 'success');
+                            }
+                        })
+                        .catch(() => alert('Gagal mengunduh QR Code. Silakan coba lagi.'));
+                },
+
+                printQrCard(storeName, logoUrl, qrUrl, catalogUrl) {
+                    const printWindow = window.open('', '_blank', 'width=700,height=900');
+                    const logoHtml = logoUrl ?
+                        `<img src="${logoUrl}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;margin:0 auto 12px;border:3px solid #10b981;box-shadow:0 2px 8px rgba(0,0,0,0.1)">` :
+                        '';
+
+                    printWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Cetak QR Code - ${storeName}</title>
+                            <style>
+                                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap');
+                                body {
+                                    font-family: 'Plus Jakarta Sans', sans-serif;
+                                    background: #f8fafc;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    min-height: 100vh;
+                                    margin: 0;
+                                    padding: 20px;
+                                    box-sizing: border-box;
+                                }
+                                .card {
+                                    background: #ffffff;
+                                    width: 100%;
+                                    max-width: 420px;
+                                    border-radius: 28px;
+                                    padding: 40px 32px;
+                                    text-align: center;
+                                    border: 2px solid #e2e8f0;
+                                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+                                }
+                                .title {
+                                    font-size: 24px;
+                                    font-weight: 800;
+                                    color: #0f172a;
+                                    margin: 0 0 20px;
+                                }
+                                .subtitle {
+                                    font-size: 13px;
+                                    font-weight: 600;
+                                    color: #64748b;
+                                    margin: 0 0 24px;
+                                }
+                                .qr-box {
+                                    background: #ffffff;
+                                    padding: 16px;
+                                    border-radius: 20px;
+                                    border: 2px solid #10b981;
+                                    display: inline-block;
+                                    margin-bottom: 24px;
+                                }
+                                .qr-box img {
+                                    width: 240px;
+                                    height: 240px;
+                                    display: block;
+                                }
+                                .instruction {
+                                    background: #ecfdf5;
+                                    color: #065f46;
+                                    padding: 12px 16px;
+                                    border-radius: 16px;
+                                    font-size: 12px;
+                                    font-weight: 700;
+                                    margin-bottom: 20px;
+                                }
+                                .footer {
+                                    font-size: 11px;
+                                    color: #94a3b8;
+                                    font-weight: 600;
+                                }
+                                @media print {
+                                    body { background: white; padding: 0; }
+                                    .card { border: none; box-shadow: none; width: 100%; }
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="card">
+                                ${logoHtml}
+                                <h1 class="title">${storeName}</h1>
+                                <div class="qr-box">
+                                    <img src="${qrUrl}" alt="QR Code">
+                                </div>
+                                <div class="instruction">
+                                    Scan QR Code untuk buka Katalog & Pesan via WA
+                                </div>
+                                <p class="footer">Powered by Katalogin</p>
+                            </div>
+                            <script>
+                                window.onload = () => {
+                                    setTimeout(() => {
+                                        window.print();
+                                    }, 400);
+                                };
+                            <\/script>
+                        </body>
+                        </html>
+                    `);
+                    printWindow.document.close();
                 }
             }
         }
