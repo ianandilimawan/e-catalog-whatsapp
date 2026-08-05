@@ -303,16 +303,16 @@
     </div>
 
     <!-- 3. STORE BRANDING HERO SECTION (CENTERED LAYOUT MATCHING DESIGN) -->
-    <section class="w-full max-w-5xl mx-auto px-4 pt-4 sm:pt-6 pb-2 text-center">
+    <section class="w-full max-w-5xl mx-auto px-4 pt-3 sm:pt-4 text-center">
         <!-- Banner (if present) -->
         @if ($bannerUrl)
-            <div class="w-full h-32 sm:h-48 md:h-56 rounded-2xl overflow-hidden shadow-sm bg-gradient-to-r from-emerald-600 to-teal-700 relative mb-4">
+            <div class="w-full h-32 sm:h-48 md:h-56 rounded-2xl overflow-hidden shadow-sm bg-gradient-to-r from-emerald-600 to-teal-700 relative">
                 <img src="{{ $bannerUrl }}" alt="Store Banner" class="w-full h-full object-cover">
             </div>
         @endif
 
-        <!-- Centered Store Logo Badge -->
-        <div class="relative inline-block mb-3">
+        <!-- Centered Store Logo Badge (Overlapping Banner) -->
+        <div class="relative inline-block {{ $bannerUrl ? '-mt-10 sm:-mt-12' : 'mt-2' }} z-10 mb-2">
             <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-white dark:border-gray-900 shadow-md overflow-hidden bg-white dark:bg-gray-800 flex items-center justify-center font-bold text-2xl text-primary mx-auto">
                 @if ($logoUrl)
                     <img src="{{ $logoUrl }}" alt="Logo" class="w-full h-full object-cover">
