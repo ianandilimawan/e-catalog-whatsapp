@@ -135,14 +135,15 @@
         <!-- 4. Mini Grafik Visitor Trend (Inline SVG Sparkline - Taller on Desktop) -->
         <div
             class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 md:p-6 shadow-sm">
-            <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center justify-between mb-4">
                 <div>
                     <h3 class="text-sm md:text-base font-bold text-zinc-900 dark:text-white">Trend Pengunjung (7 Hari)</h3>
                     <p class="text-xs text-zinc-500 dark:text-zinc-400">Total: {{ array_sum($trendCounts) }} kunjungan</p>
                 </div>
                 <a href="{{ route('app.stats.index') }}"
-                    class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">
-                    Detail →
+                    class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1">
+                    <span>Detail</span>
+                    <span>→</span>
                 </a>
             </div>
 
@@ -162,24 +163,50 @@
                 $pointsString = implode(' ', $points);
             @endphp
 
-            <div class="w-full h-16 md:h-28 relative">
+            <div class="w-full h-24 md:h-36 relative my-3">
+                <!-- Background Grid Lines -->
+                <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20 dark:opacity-10">
+                    <div class="border-b border-dashed border-zinc-400 dark:border-zinc-500 w-full"></div>
+                    <div class="border-b border-dashed border-zinc-400 dark:border-zinc-500 w-full"></div>
+                    <div class="border-b border-dashed border-zinc-400 dark:border-zinc-500 w-full"></div>
+                </div>
+
+                <!-- Gradient & Line SVG -->
                 <svg class="w-full h-full overflow-visible" viewBox="0 0 280 60" preserveAspectRatio="none">
-                    <polyline fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"
+                    <defs>
+                        <linearGradient id="dashChartGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#10b981" stop-opacity="0.3" />
+                            <stop offset="100%" stop-color="#10b981" stop-opacity="0.0" />
+                        </linearGradient>
+                    </defs>
+                    <polygon fill="url(#dashChartGrad)" points="0,60 {{ $pointsString }} 280,60" />
+                    <polyline fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"
                         stroke-linejoin="round" points="{{ $pointsString }}" />
-                    @foreach ($trendCounts as $idx => $cnt)
-                        @php
-                            $x = $idx * $stepX;
-                            $y = $height - ($cnt / $maxCount) * ($height - 10);
-                        @endphp
-                        <circle cx="{{ $x }}" cy="{{ $y }}" r="3.5"
-                            class="fill-emerald-600 dark:fill-emerald-400 stroke-white dark:stroke-zinc-900"
-                            stroke-width="1.5" />
-                    @endforeach
                 </svg>
+
+                <!-- Data Point Dots (CSS Circular) -->
+                @foreach ($trendCounts as $idx => $cnt)
+                    @php
+                        $leftPct = $countTotal > 1 ? ($idx / ($countTotal - 1)) * 100 : 50;
+                        $topPct = 100 - (($cnt / $maxCount) * 83 + 8);
+                    @endphp
+                    <div class="absolute group transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10"
+                        style="left: {{ $leftPct }}%; top: {{ $topPct }}%;">
+                        <div class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-zinc-900 shadow-md group-hover:scale-125 transition-transform"></div>
+                        
+                        <!-- Tooltip -->
+                        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center pointer-events-none z-20">
+                            <div class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-[10px] md:text-xs font-bold py-1 px-2 rounded-lg shadow-lg whitespace-nowrap">
+                                {{ $cnt }} kunjungan
+                            </div>
+                            <div class="w-1.5 h-1.5 bg-zinc-900 dark:bg-zinc-100 rotate-45 -mt-1"></div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
 
             <div
-                class="flex justify-between items-center text-[10px] md:text-xs text-zinc-400 dark:text-zinc-500 mt-2 px-1">
+                class="flex justify-between items-center text-[10px] md:text-xs text-zinc-400 dark:text-zinc-500 mt-3 px-1 font-medium">
                 @foreach ($trendDates as $d)
                     <span>{{ $d }}</span>
                 @endforeach

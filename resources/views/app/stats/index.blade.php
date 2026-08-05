@@ -80,28 +80,59 @@
                 $ptsVisitors[] = "$x,$yV";
                 $ptsWa[] = "$x,$yW";
             }
+            $ptsVisitorsStr = implode(' ', $ptsVisitors);
+            $ptsWaStr = implode(' ', $ptsWa);
         @endphp
 
-        <div class="w-full h-24 md:h-40 lg:h-48 relative">
+        <div class="w-full h-28 md:h-44 relative my-3">
+            <!-- Background Grid Lines -->
+            <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20 dark:opacity-10">
+                <div class="border-b border-dashed border-zinc-400 dark:border-zinc-500 w-full"></div>
+                <div class="border-b border-dashed border-zinc-400 dark:border-zinc-500 w-full"></div>
+                <div class="border-b border-dashed border-zinc-400 dark:border-zinc-500 w-full"></div>
+            </div>
+
+            <!-- Gradient & Line SVG -->
             <svg class="w-full h-full overflow-visible" viewBox="0 0 280 80" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="statsChartGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#10b981" stop-opacity="0.25" />
+                        <stop offset="100%" stop-color="#10b981" stop-opacity="0.0" />
+                    </linearGradient>
+                </defs>
+                <polygon fill="url(#statsChartGrad)" points="0,80 {{ $ptsVisitorsStr }} 280,80" />
+                
                 <!-- Visitors Polyline -->
-                <polyline fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="{{ implode(' ', $ptsVisitors) }}" />
+                <polyline fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="{{ $ptsVisitorsStr }}" />
 
                 <!-- WA Clicks Polyline -->
-                <polyline fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,4" stroke-linecap="round" stroke-linejoin="round" points="{{ implode(' ', $ptsWa) }}" />
-
-                @foreach($chartDates as $idx => $lbl)
-                    @php
-                        $x = $idx * $stepX;
-                        $yV = $height - (($chartVisitors[$idx] / $maxVal) * ($height - 10));
-                    @endphp
-                    <circle cx="{{ $x }}" cy="{{ $yV }}" r="3" class="fill-emerald-600" />
-                @endforeach
+                <polyline fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,4" stroke-linecap="round" stroke-linejoin="round" points="{{ $ptsWaStr }}" />
             </svg>
+
+            <!-- Visitor Data Point Dots (CSS Circular) -->
+            @foreach($chartDates as $idx => $lbl)
+                @php
+                    $vCnt = $chartVisitors[$idx];
+                    $leftPct = $countTotal > 1 ? ($idx / ($countTotal - 1)) * 100 : 50;
+                    $topPct = 100 - (($vCnt / $maxVal) * 87.5 + 6.25);
+                @endphp
+                <div class="absolute group transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10"
+                    style="left: {{ $leftPct }}%; top: {{ $topPct }}%;">
+                    <div class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-zinc-900 shadow-md group-hover:scale-125 transition-transform"></div>
+                    
+                    <!-- Tooltip -->
+                    <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center pointer-events-none z-20">
+                        <div class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-[10px] md:text-xs font-bold py-1 px-2 rounded-lg shadow-lg whitespace-nowrap">
+                            {{ $vCnt }} pengunjung
+                        </div>
+                        <div class="w-1.5 h-1.5 bg-zinc-900 dark:bg-zinc-100 rotate-45 -mt-1"></div>
+                    </div>
+                </div>
+            @endforeach
         </div>
 
         <!-- Dates labels -->
-        <div class="flex justify-between items-center text-[9px] md:text-xs text-zinc-400 dark:text-zinc-500 overflow-hidden">
+        <div class="flex justify-between items-center text-[9px] md:text-xs text-zinc-400 dark:text-zinc-500 overflow-hidden font-medium mt-2">
             @foreach($chartDates as $lbl)
                 <span>{{ $lbl }}</span>
             @endforeach
