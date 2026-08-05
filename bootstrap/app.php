@@ -29,6 +29,20 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->redirectGuestsTo(fn() => route('login'));
+        $middleware->redirectUsersTo(function () {
+            $user = Auth::user();
+            if (!$user) {
+                return route('login');
+            }
+            if ($user->hasRole('admin-toko') && !$user->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
+                $storeCount = \App\Models\Store::where('user_id', $user->id)->count();
+                if ($storeCount == 0) {
+                    return route('onboarding.store');
+                }
+                return route('app.dashboard');
+            }
+            return route('admin.dashboard');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Handle 419 CSRF token mismatch error

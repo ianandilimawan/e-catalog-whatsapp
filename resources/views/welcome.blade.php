@@ -236,8 +236,20 @@
 
                     <div class="h-5 sm:h-6 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block"></div>
 
-                    <a href="{{ route('login') }}" class="hidden sm:block text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">{{ __('Masuk') }}</a>
-                    <a href="{{ route('register') }}" class="text-xs sm:text-sm font-semibold text-white bg-primary px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-md hover:bg-secondary transition-colors whitespace-nowrap">{{ __('Mulai Gratis') }}</a>
+                    @auth
+                        @php
+                            $user = auth()->user();
+                            $dashRoute = ($user->hasRole('admin-toko') && !$user->hasAnyRole(['administrator', 'admin', 'super-admin']))
+                                ? route('app.dashboard')
+                                : route('admin.dashboard');
+                        @endphp
+                        <a href="{{ $dashRoute }}" class="text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-full shadow-md transition-all flex items-center gap-1.5 active:scale-95">
+                            <span>⚡ Ke Dashboard</span>
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="hidden sm:block text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">{{ __('Masuk') }}</a>
+                        <a href="{{ route('register') }}" class="text-xs sm:text-sm font-semibold text-white bg-primary px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-md hover:bg-secondary transition-colors whitespace-nowrap">{{ __('Mulai Gratis') }}</a>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -270,10 +282,17 @@
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <a href="{{ route('register') }}"
-                        class="w-full sm:w-auto font-bold text-base px-8 py-4 bg-slate-900 dark:bg-primary text-white rounded-full hover:bg-slate-800 dark:hover:bg-secondary transition-all shadow-xl flex items-center justify-center gap-2 hover:-translate-y-1">
-                        {{ __('Buat Toko Gratis Sekarang') }}
-                    </a>
+                    @auth
+                        <a href="{{ $dashRoute }}"
+                            class="w-full sm:w-auto font-bold text-base px-8 py-4 bg-emerald-600 text-white rounded-full hover:bg-emerald-700 transition-all shadow-xl flex items-center justify-center gap-2 hover:-translate-y-1">
+                            ⚡ {{ __('Buka Dashboard Toko Anda') }}
+                        </a>
+                    @else
+                        <a href="{{ route('register') }}"
+                            class="w-full sm:w-auto font-bold text-base px-8 py-4 bg-slate-900 dark:bg-primary text-white rounded-full hover:bg-slate-800 dark:hover:bg-secondary transition-all shadow-xl flex items-center justify-center gap-2 hover:-translate-y-1">
+                            {{ __('Buat Toko Gratis Sekarang') }}
+                        </a>
+                    @endauth
                     <a href="/lumiere-skincare" target="_blank"
                         class="w-full sm:w-auto font-bold text-base px-8 py-4 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 rounded-full hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-1">
                         {{ __('Lihat Contoh Katalog Toko') }} ↗
@@ -596,10 +615,17 @@
             <p class="text-emerald-100 text-lg mb-10">
                 {{ __('Ribuan UMKM telah menggunakan Katalogin untuk mempermudah transaksi dan meningkatkan pesanan.') }}
             </p>
-            <a href="{{ route('register') }}"
-                class="inline-block font-bold text-lg px-10 py-5 bg-white text-primary rounded-full hover:bg-slate-50 transition-all shadow-xl hover:-translate-y-1">
-                {{ __('Buat Toko Sekarang - Gratis') }}
-            </a>
+            @auth
+                <a href="{{ $dashRoute }}"
+                    class="inline-block font-bold text-lg px-10 py-5 bg-white text-emerald-700 rounded-full hover:bg-slate-50 transition-all shadow-xl hover:-translate-y-1">
+                    ⚡ {{ __('Buka Dashboard Toko') }}
+                </a>
+            @else
+                <a href="{{ route('register') }}"
+                    class="inline-block font-bold text-lg px-10 py-5 bg-white text-primary rounded-full hover:bg-slate-50 transition-all shadow-xl hover:-translate-y-1">
+                    {{ __('Buat Toko Sekarang - Gratis') }}
+                </a>
+            @endauth
         </div>
     </section>
 
