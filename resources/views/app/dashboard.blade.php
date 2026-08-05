@@ -1,0 +1,266 @@
+@extends('app.layouts.main')
+
+@section('title', 'Dashboard Vendor')
+
+@section('content')
+    <div class="space-y-5 md:space-y-6" x-data="dashboardShare()">
+        <!-- 1. Greeting Card -->
+        <div
+            class="bg-gradient-to-r from-emerald-600 to-teal-700 dark:from-emerald-700 dark:to-teal-900 rounded-2xl p-4 md:p-6 text-white shadow-lg shadow-emerald-600/10 md:flex md:items-center md:justify-between">
+            <div>
+                <p class="text-emerald-100 text-xs font-medium uppercase tracking-wider">
+                    {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
+                </p>
+                <h2 class="text-xl md:text-2xl font-bold mt-0.5">
+                    @php
+                        $hour = date('H');
+                        $greeting = 'Selamat Pagi';
+                        if ($hour >= 11 && $hour < 15) {
+                            $greeting = 'Selamat Siang';
+                        } elseif ($hour >= 15 && $hour < 19) {
+                            $greeting = 'Selamat Sore';
+                        } elseif ($hour >= 19 || $hour < 4) {
+                            $greeting = 'Selamat Malam';
+                        }
+                    @endphp
+                    {{ $greeting }}, {{ strtok($user->name, ' ') }}! 👋
+                </h2>
+                <p class="text-emerald-100/90 text-xs md:text-sm mt-1">
+                    Kelola katalog toko WhatsApp kamu dengan cepat dan responsif dari semua perangkat.
+                </p>
+            </div>
+            {{-- <div class="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center flex-shrink-0 text-2xl md:text-3xl mt-3 md:mt-0">
+            🏪
+        </div> --}}
+        </div>
+
+        <!-- 2. Quick Stats Row (Grid on Desktop) -->
+        <div>
+            <h3 class="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2 px-1">Ringkasan Hari
+                Ini</h3>
+            <div class="grid grid-cols-3 gap-3 md:gap-4">
+                <!-- Stat 1: Produk -->
+                <div
+                    class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-3.5 md:p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-zinc-500 dark:text-zinc-400 mb-2">
+                        <span class="text-xs md:text-sm font-medium">Produk</span>
+                        {{-- <span
+                            class="p-1 md:p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 text-sm md:text-base">📦</span> --}}
+                    </div>
+                    <div class="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">{{ $totalProducts }}</div>
+                    <div class="text-[11px] md:text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Total Aktif</div>
+                </div>
+
+                <!-- Stat 2: Pengunjung Hari Ini -->
+                <div
+                    class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-3.5 md:p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-zinc-500 dark:text-zinc-400 mb-2">
+                        <span class="text-xs md:text-sm font-medium">Pengunjung</span>
+                        {{-- <span
+                            class="p-1 md:p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 text-sm md:text-base">👁️</span> --}}
+                    </div>
+                    <div class="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">{{ $todayVisitors }}</div>
+                    <div class="text-[11px] md:text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Hari Ini</div>
+                </div>
+
+                <!-- Stat 3: Klik WA Hari Ini -->
+                <div
+                    class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-3.5 md:p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-zinc-500 dark:text-zinc-400 mb-2">
+                        <span class="text-xs md:text-sm font-medium">Klik WA</span>
+                        {{-- <span
+                            class="p-1 md:p-1.5 rounded-lg bg-green-50 dark:bg-green-950/50 text-green-600 dark:text-green-400 text-sm md:text-base">💬</span> --}}
+                    </div>
+                    <div class="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">{{ $todayWaClicks }}</div>
+                    <div class="text-[11px] md:text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Hari Ini</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Quick Actions Grid (4 Cols on Desktop) -->
+        <div>
+            <h3 class="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2 px-1">Aksi Cepat
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                <a href="{{ route('app.products.create') }}"
+                    class="flex items-center gap-3 p-3.5 md:p-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-sm hover:border-emerald-500 transition-colors active:scale-98">
+                    <div
+                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg md:text-xl flex-shrink-0">
+                        ➕
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-zinc-900 dark:text-white leading-tight">Tambah Produk</h4>
+                        <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Foto & Harga</p>
+                    </div>
+                </a>
+
+                <a href="{{ route('app.store.edit') }}"
+                    class="flex items-center gap-3 p-3.5 md:p-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-sm hover:border-emerald-500 transition-colors active:scale-98">
+                    <div
+                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-lg md:text-xl flex-shrink-0">
+                        ⚙️
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-zinc-900 dark:text-white leading-tight">Edit Toko</h4>
+                        <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Logo & WA</p>
+                    </div>
+                </a>
+
+                <a href="{{ route('catalog.show', $store->slug) }}" target="_blank"
+                    class="flex items-center gap-3 p-3.5 md:p-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-sm hover:border-emerald-500 transition-colors active:scale-98">
+                    <div
+                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-lg md:text-xl flex-shrink-0">
+                        🌐
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-zinc-900 dark:text-white leading-tight">Lihat Katalog</h4>
+                        <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Buka web toko</p>
+                    </div>
+                </a>
+
+                <button @click="shareCatalog('{{ route('catalog.show', $store->slug) }}', '{{ $store->name }}')"
+                    class="flex items-center gap-3 p-3.5 md:p-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-sm hover:border-emerald-500 transition-colors text-left active:scale-98">
+                    <div
+                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-lg md:text-xl flex-shrink-0">
+                        🔗
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-zinc-900 dark:text-white leading-tight">Bagikan Link</h4>
+                        <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Share ke WA</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- 4. Mini Grafik Visitor Trend (Inline SVG Sparkline - Taller on Desktop) -->
+        <div
+            class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 md:p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+                <div>
+                    <h3 class="text-sm md:text-base font-bold text-zinc-900 dark:text-white">Trend Pengunjung (7 Hari)</h3>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400">Total: {{ array_sum($trendCounts) }} kunjungan</p>
+                </div>
+                <a href="{{ route('app.stats.index') }}"
+                    class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">
+                    Detail →
+                </a>
+            </div>
+
+            @php
+                $maxCount = max(max($trendCounts), 1);
+                $points = [];
+                $width = 280;
+                $height = 60;
+                $countTotal = count($trendCounts);
+                $stepX = $countTotal > 1 ? $width / ($countTotal - 1) : $width;
+
+                foreach ($trendCounts as $idx => $cnt) {
+                    $x = $idx * $stepX;
+                    $y = $height - ($cnt / $maxCount) * ($height - 10);
+                    $points[] = "$x,$y";
+                }
+                $pointsString = implode(' ', $points);
+            @endphp
+
+            <div class="w-full h-16 md:h-28 relative">
+                <svg class="w-full h-full overflow-visible" viewBox="0 0 280 60" preserveAspectRatio="none">
+                    <polyline fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" points="{{ $pointsString }}" />
+                    @foreach ($trendCounts as $idx => $cnt)
+                        @php
+                            $x = $idx * $stepX;
+                            $y = $height - ($cnt / $maxCount) * ($height - 10);
+                        @endphp
+                        <circle cx="{{ $x }}" cy="{{ $y }}" r="3.5"
+                            class="fill-emerald-600 dark:fill-emerald-400 stroke-white dark:stroke-zinc-900"
+                            stroke-width="1.5" />
+                    @endforeach
+                </svg>
+            </div>
+
+            <div
+                class="flex justify-between items-center text-[10px] md:text-xs text-zinc-400 dark:text-zinc-500 mt-2 px-1">
+                @foreach ($trendDates as $d)
+                    <span>{{ $d }}</span>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- 5. Produk Terbanyak Dilihat (Grid on Desktop) -->
+        <div>
+            <div class="flex items-center justify-between mb-2 px-1">
+                <h3 class="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Produk Sering
+                    Dilihat</h3>
+                <a href="{{ route('app.products.index') }}"
+                    class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">
+                    Semua Produk →
+                </a>
+            </div>
+
+            @if ($topProducts->count() > 0)
+                <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-3">
+                    @foreach ($topProducts as $prod)
+                        <a href="{{ route('app.products.edit', $prod->id) }}"
+                            class="flex items-center justify-between p-3 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-sm hover:border-emerald-500 transition-colors">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div
+                                    class="w-11 h-11 md:w-12 md:h-12 rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex-shrink-0 border border-zinc-200 dark:border-zinc-700">
+                                    @if ($prod->image)
+                                        <img src="{{ \App\Services\FileUploadService::getFileUrl($prod->image) }}"
+                                            alt="{{ $prod->name }}" class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full flex items-center justify-center text-zinc-400 text-xs">No
+                                            image</div>
+                                    @endif
+                                </div>
+                                <div class="min-w-0">
+                                    <h4 class="text-sm font-semibold text-zinc-900 dark:text-white truncate">
+                                        {{ $prod->name }}</h4>
+                                    <p class="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">Rp
+                                        {{ number_format($prod->price, 0, ',', '.') }}</p>
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 flex-shrink-0 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-full">
+                                <span>👁️</span>
+                                <span>{{ $prod->views_count ?? 0 }}</span>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            @else
+                <div
+                    class="p-6 md:p-10 text-center bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl">
+                    <div class="text-3xl md:text-4xl mb-2">📦</div>
+                    <p class="text-xs md:text-sm text-zinc-500 dark:text-zinc-400">Belum ada produk yang ditambahkan.</p>
+                    <a href="{{ route('app.products.create') }}"
+                        class="inline-block mt-3 px-4 py-2 bg-emerald-600 text-white font-bold text-xs md:text-sm rounded-xl shadow-md">
+                        + Tambah Produk Sekarang
+                    </a>
+                </div>
+            @endif
+        </div>
+    </div>
+
+    <script>
+        function dashboardShare() {
+            return {
+                shareCatalog(url, storeName) {
+                    if (navigator.share) {
+                        navigator.share({
+                            title: storeName,
+                            text: 'Kunjungi katalog produk digital ' + storeName + ' di WhatsApp!',
+                            url: url
+                        }).catch(() => {});
+                    } else {
+                        navigator.clipboard.writeText(url).then(() => {
+                            showAppToast('Link katalog berhasil disalin!', 'success');
+                        }).catch(() => {
+                            showAppToast('Gagal menyalin link.', 'error');
+                        });
+                    }
+                }
+            }
+        }
+    </script>
+@endsection

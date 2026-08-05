@@ -118,6 +118,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.store', 'web
     // [ADMIN_ROUTES_MARKER]
 });
 
+// Mobile-First Vendor App Routes (/app/*)
+Route::prefix('app')->name('app.')->middleware(['web', 'auth', 'ensure.store'])->group(base_path('routes/app.php'));
+
 // Public Catalog Routes
 Route::post('/{slug}/track-product-view/{product}', [App\Http\Controllers\CatalogController::class, 'trackProductView'])->name('catalog.track-product-view');
 Route::post('/{slug}/track-wa-click', [App\Http\Controllers\CatalogController::class, 'trackWaClick'])->name('catalog.track-wa-click');

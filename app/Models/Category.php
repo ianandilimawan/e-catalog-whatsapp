@@ -23,7 +23,7 @@ class Category extends Model
     protected static function booted()
     {
         static::addGlobalScope('tenant', function ($builder) {
-            if (auth()->check() && request()->is('admin/*')) {
+            if (auth()->check() && (request()->is('admin/*') || request()->is('app/*') || request()->is('app'))) {
                 if (!auth()->user()->hasRole('admin')) {
                     $store = auth()->user()->store;
                     if ($store) {
@@ -36,7 +36,7 @@ class Category extends Model
         });
 
         static::creating(function ($model) {
-            if (auth()->check() && request()->is('admin/*')) {
+            if (auth()->check() && (request()->is('admin/*') || request()->is('app/*') || request()->is('app'))) {
                 if (!auth()->user()->hasRole('admin')) {
                     $store = auth()->user()->store;
                     if ($store && empty($model->store_id)) {

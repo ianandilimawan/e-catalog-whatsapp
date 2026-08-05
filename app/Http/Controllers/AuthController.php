@@ -63,7 +63,11 @@ class AuthController extends Controller
                 'new_values' => ['ip_address' => $request->ip(), 'user_agent' => $request->userAgent()],
             ]);
 
-            return redirect()->intended(route('admin.dashboard'))->with('success', 'Welcome back!');
+            $redirectRoute = ($user->hasRole('admin-toko') && !$user->hasAnyRole(['administrator', 'admin', 'super-admin']))
+                ? route('app.dashboard')
+                : route('admin.dashboard');
+
+            return redirect()->intended($redirectRoute)->with('success', 'Welcome back!');
         }
 
         return back()->withErrors([
@@ -118,7 +122,11 @@ class AuthController extends Controller
             'new_values' => ['ip_address' => $request->ip(), 'user_agent' => $request->userAgent()],
         ]);
 
-        return redirect()->intended(route('admin.dashboard'))->with('success', 'Welcome back!');
+        $redirectRoute = ($user->hasRole('admin-toko') && !$user->hasAnyRole(['administrator', 'admin', 'super-admin']))
+            ? route('app.dashboard')
+            : route('admin.dashboard');
+
+        return redirect()->intended($redirectRoute)->with('success', 'Welcome back!');
     }
 
     public function resendOtp(Request $request)

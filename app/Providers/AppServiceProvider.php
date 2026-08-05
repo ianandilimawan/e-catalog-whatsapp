@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useTailwind();
 
-        if (str_contains(request()->getHost(), 'ngrok-free.app') || str_contains(request()->getHost(), 'ngrok.io')) {
+        if (str_contains(request()->getHost(), 'ngrok') || request()->header('X-Forwarded-Proto') === 'https') {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
         try {

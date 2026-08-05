@@ -12,6 +12,10 @@ class OnboardingController extends Controller
     public function show()
     {
         if (auth()->user()->store) {
+            $user = auth()->user();
+            if ($user->hasRole('admin-toko') && !$user->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
+                return redirect()->route('app.dashboard');
+            }
             return redirect()->route('admin.dashboard');
         }
         $settings = Setting::getSettings();
@@ -22,6 +26,10 @@ class OnboardingController extends Controller
     {
         // If user somehow already has a store, redirect them away
         if (auth()->user()->store) {
+            $user = auth()->user();
+            if ($user->hasRole('admin-toko') && !$user->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
+                return redirect()->route('app.dashboard');
+            }
             return redirect()->route('admin.dashboard');
         }
 
@@ -41,6 +49,12 @@ class OnboardingController extends Controller
             'dark_mode' => false,
             'welcome_message' => 'Selamat datang di ' . $request->name,
         ]);
+
+        $user = auth()->user();
+        if ($user->hasRole('admin-toko') && !$user->hasAnyRole(['administrator', 'admin', 'super-admin'])) {
+            return redirect()->route('app.dashboard')
+                ->with('success', 'Toko kamu siap! Mulai tambah produk pertama.');
+        }
 
         return redirect()->route('admin.dashboard')
             ->with('success', 'Toko kamu siap! Mulai tambah produk pertama.');

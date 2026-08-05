@@ -60,7 +60,7 @@ class StoreTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('user_id', function (Store $row) {
-                return $row->user->name;
+                return $row->user?->name ?? 'N/A';
             })
             ->add('name')
             ->add('link', function (Store $row) {
