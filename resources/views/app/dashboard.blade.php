@@ -150,6 +150,7 @@
             @php
                 $maxCount = max(max($trendCounts), 1);
                 $points = [];
+                $yTrendArr = [];
                 $width = 280;
                 $height = 60;
                 $countTotal = count($trendCounts);
@@ -159,6 +160,7 @@
                     $x = $idx * $stepX;
                     $y = $height - ($cnt / $maxCount) * ($height - 10);
                     $points[] = "$x,$y";
+                    $yTrendArr[$idx] = $y;
                 }
                 $pointsString = implode(' ', $points);
             @endphp
@@ -188,11 +190,11 @@
                 @foreach ($trendCounts as $idx => $cnt)
                     @php
                         $leftPct = $countTotal > 1 ? ($idx / ($countTotal - 1)) * 100 : 50;
-                        $topPct = 100 - (($cnt / $maxCount) * 83 + 8);
+                        $topPct = ($yTrendArr[$idx] / $height) * 100;
                     @endphp
                     <div class="absolute group transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10"
                         style="left: {{ $leftPct }}%; top: {{ $topPct }}%;">
-                        <div class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-zinc-900 shadow-md group-hover:scale-125 transition-transform"></div>
+                        <div class="w-3 h-3 md:w-3.5 md:h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-zinc-900 shadow-md group-hover:scale-125 transition-transform"></div>
                         
                         <!-- Tooltip -->
                         <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center pointer-events-none z-20">
