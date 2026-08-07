@@ -15,10 +15,113 @@ class ProductList extends Component
     public $perPage = 10;
     public $confirmingDeleteId = null;
 
+    // Category Management
+    public $showCategoryManager = false;
+    public $newCategoryName = '';
+    public $editingCategoryId = null;
+    public $editingCategoryName = '';
+    public $confirmingDeleteCategoryId = null;
+
     protected $queryString = [
         'search' => ['except' => ''],
         'selectedCategory' => ['except' => null],
     ];
+
+    public function openCategoryManager()
+    {
+        $this->showCategoryManager = true;
+    }
+
+    public function closeCategoryManager()
+    {
+        $this->showCategoryManager = false;
+        $this->editingCategoryId = null;
+        $this->newCategoryName = '';
+        $this->confirmingDeleteCategoryId = null;
+    }
+
+    public function addCategory()
+    {
+        $this->validate([
+            'newCategoryName' => 'required|string|max:255',
+        ]);
+
+        $store = auth()->user()->store;
+        if (!$store) return;
+
+        Category::create([
+            'store_id' => $store->id,
+            'name' => trim($this->newCategoryName),
+            'slug' => Str::slug($this->newCategoryName),
+        ]);
+
+        $this->newCategoryName = '';
+        $this->dispatch('toast', message: 'Kategori berhasil ditambahkan!', type: 'success');
+    }
+
+    public function startEditCategory($id, $name)
+    {
+        $this->editingCategoryId = $id;
+        $this->editingCategoryName = $name;
+    }
+
+    public function cancelEditCategory()
+    {
+        $this->editingCategoryId = null;
+        $this->editingCategoryName = '';
+    }
+
+    public function updateCategory()
+    {
+        $this->validate([
+            'editingCategoryName' => 'required|string|max:255',
+        ]);
+
+        $store = auth()->user()->store;
+        if (!$store) return;
+
+        $category = Category::where('store_id', $store->id)->where('id', $this->editingCategoryId)->first();
+        if ($category) {
+            $category->update([
+                'name' => trim($this->editingCategoryName),
+                'slug' => Str::slug($this->editingCategoryName),
+            ]);
+            $this->dispatch('toast', message: 'Kategori berhasil diperbarui!', type: 'success');
+        }
+
+        $this->editingCategoryId = null;
+        $this->editingCategoryName = '';
+    }
+
+    public function confirmDeleteCategory($id)
+    {
+        $this->confirmingDeleteCategoryId = $id;
+    }
+
+    public function cancelDeleteCategory()
+    {
+        $this->confirmingDeleteCategoryId = null;
+    }
+
+    public function deleteCategory($id)
+    {
+        $store = auth()->user()->store;
+        if (!$store) return;
+
+        $category = Category::where('store_id', $store->id)->where('id', $id)->first();
+        if ($category) {
+            Product::where('store_id', $store->id)->where('category_id', $category->id)->update(['category_id' => null]);
+            $category->delete();
+
+            if ($this->selectedCategory == $id) {
+                $this->selectedCategory = null;
+            }
+
+            $this->dispatch('toast', message: 'Kategori berhasil dihapus.', type: 'success');
+        }
+
+        $this->confirmingDeleteCategoryId = null;
+    }
 
     public function updatedSearch()
     {

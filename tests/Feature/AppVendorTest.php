@@ -56,6 +56,44 @@ class AppVendorTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('app.products.index'));
         $response->assertStatus(200);
         $response->assertSee('Daftar Produk');
+        $response->assertSee('Kelola Kategori');
+    }
+
+    public function test_vendor_can_add_edit_and_delete_categories()
+    {
+        \Livewire::actingAs($this->user)
+            ->test(\App\Livewire\App\ProductList::class)
+            ->set('newCategoryName', 'Kategori Baru Livewire')
+            ->call('addCategory')
+            ->assertDispatched('toast');
+
+        $this->assertDatabaseHas('categories', [
+            'store_id' => $this->store->id,
+            'name' => 'Kategori Baru Livewire',
+        ]);
+
+        $cat = Category::where('name', 'Kategori Baru Livewire')->first();
+
+        \Livewire::actingAs($this->user)
+            ->test(\App\Livewire\App\ProductList::class)
+            ->call('startEditCategory', $cat->id, $cat->name)
+            ->set('editingCategoryName', 'Kategori Ter-Update')
+            ->call('updateCategory')
+            ->assertDispatched('toast');
+
+        $this->assertDatabaseHas('categories', [
+            'id' => $cat->id,
+            'name' => 'Kategori Ter-Update',
+        ]);
+
+        \Livewire::actingAs($this->user)
+            ->test(\App\Livewire\App\ProductList::class)
+            ->call('deleteCategory', $cat->id)
+            ->assertDispatched('toast');
+
+        $this->assertDatabaseMissing('categories', [
+            'id' => $cat->id,
+        ]);
     }
 
     public function test_vendor_can_access_product_create()

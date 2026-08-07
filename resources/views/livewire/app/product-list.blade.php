@@ -17,7 +17,7 @@
     </div>
 
     <!-- 2. Category Filter Pills -->
-    <div class="flex gap-2 overflow-x-auto snap-x no-scrollbar py-1">
+    <div class="flex items-center gap-2 overflow-x-auto snap-x no-scrollbar py-1">
         <button wire:click="selectCategory(null)" 
                 class="snap-start px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors border {{ is_null($selectedCategory) ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm' : 'bg-white dark:bg-zinc-900 border-zinc-200/80 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300' }}">
             Semua ({{ $totalCount }})
@@ -28,6 +28,11 @@
                 {{ $cat->name }}
             </button>
         @endforeach
+        <button wire:click="openCategoryManager" 
+                class="snap-start px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors border bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 text-emerald-600 dark:text-emerald-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 flex items-center gap-1">
+            <span>⚙️</span>
+            <span>Kelola Kategori</span>
+        </button>
     </div>
 
     <!-- 3. Product Cards Grid (2 cols on Mobile, 3 cols on Tablet, 4 cols on Desktop) -->
@@ -149,6 +154,99 @@
                     <button wire:click="deleteProduct({{ $confirmingDeleteId }})" 
                             class="py-2.5 px-3 rounded-xl bg-red-600 text-white text-xs font-bold shadow-md hover:bg-red-700">
                         Ya, Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Category Manager Modal -->
+    @if($showCategoryManager)
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+            <div class="bg-white dark:bg-zinc-900 rounded-3xl max-w-lg w-full p-5 md:p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col max-h-[85vh]">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                    <div>
+                        <h3 class="text-base font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+                            <span>📂</span>
+                            <span>Kelola Kategori Produk</span>
+                        </h3>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Tambah, ubah nama, atau hapus kategori toko Anda.</p>
+                    </div>
+                    <button wire:click="closeCategoryManager" class="p-1.5 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 rounded-xl">
+                        ✕
+                    </button>
+                </div>
+
+                <!-- Add New Category Form -->
+                <div class="py-4 border-b border-zinc-200 dark:border-zinc-800">
+                    <label class="block text-xs font-bold mb-1 text-zinc-700 dark:text-zinc-300">Tambah Kategori Baru</label>
+                    <div class="flex items-center gap-2">
+                        <input type="text" wire:model="newCategoryName" wire:keydown.enter="addCategory"
+                            placeholder="Contoh: Skincare, Serum, Makanan..."
+                            class="flex-1 h-10 px-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-xs font-medium border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:border-emerald-500 text-zinc-900 dark:text-white" />
+                        <button wire:click="addCategory"
+                            class="px-4 h-10 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow hover:bg-emerald-700 transition-colors flex items-center gap-1 whitespace-nowrap">
+                            <span>+ Tambah</span>
+                        </button>
+                    </div>
+                    @error('newCategoryName')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Category List -->
+                <div class="flex-1 overflow-y-auto py-3 space-y-2.5">
+                    @forelse($categories as $cat)
+                        <div class="p-3 bg-zinc-50 dark:bg-zinc-800/60 rounded-xl border border-zinc-200/60 dark:border-zinc-700/60 flex items-center justify-between gap-2">
+                            @if($editingCategoryId === $cat->id)
+                                <!-- Inline Edit Form -->
+                                <div class="flex-1 flex items-center gap-2">
+                                    <input type="text" wire:model="editingCategoryName" wire:keydown.enter="updateCategory"
+                                        class="flex-1 h-9 px-3 rounded-lg bg-white dark:bg-zinc-900 text-xs font-medium border border-emerald-500 focus:outline-none text-zinc-900 dark:text-white" />
+                                    <button wire:click="updateCategory" class="px-3 h-9 rounded-lg bg-emerald-600 text-white text-xs font-bold">Simpan</button>
+                                    <button wire:click="cancelEditCategory" class="px-2.5 h-9 rounded-lg bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs">Batal</button>
+                                </div>
+                            @elseif($confirmingDeleteCategoryId === $cat->id)
+                                <!-- Inline Delete Confirmation -->
+                                <div class="flex-1 flex items-center justify-between bg-red-50 dark:bg-red-950/40 p-2 rounded-lg border border-red-200 dark:border-red-800">
+                                    <span class="text-xs font-semibold text-red-700 dark:text-red-300">Hapus "{{ $cat->name }}"?</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <button wire:click="deleteCategory({{ $cat->id }})" class="px-3 py-1 rounded-md bg-red-600 text-white text-xs font-bold">Ya, Hapus</button>
+                                        <button wire:click="cancelDeleteCategory" class="px-2.5 py-1 rounded-md bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs">Batal</button>
+                                    </div>
+                                </div>
+                            @else
+                                <!-- Category Info & Actions -->
+                                <div class="min-w-0 flex-1">
+                                    <h4 class="text-xs font-bold text-zinc-900 dark:text-white truncate">{{ $cat->name }}</h4>
+                                    <p class="text-[10px] text-zinc-500 dark:text-zinc-400">
+                                        {{ \App\Models\Product::where('category_id', $cat->id)->count() }} produk
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <button wire:click="startEditCategory({{ $cat->id }}, '{{ e($cat->name) }}')"
+                                        class="p-1.5 text-zinc-500 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+                                        title="Edit Kategori">
+                                        ✏️
+                                    </button>
+                                    <button wire:click="confirmDeleteCategory({{ $cat->id }})"
+                                        class="p-1.5 text-zinc-500 hover:text-red-600 dark:hover:text-red-400 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+                                        title="Hapus Kategori">
+                                        🗑️
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
+                    @empty
+                        <div class="text-center py-6 text-zinc-400 text-xs">Belum ada kategori. Silakan buat kategori baru di atas.</div>
+                    @endforelse
+                </div>
+
+                <!-- Footer -->
+                <div class="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex justify-end">
+                    <button wire:click="closeCategoryManager" class="px-5 h-10 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xs font-bold">
+                        Selesai
                     </button>
                 </div>
             </div>

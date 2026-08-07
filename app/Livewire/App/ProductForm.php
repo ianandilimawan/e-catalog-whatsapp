@@ -97,6 +97,70 @@ class ProductForm extends Component
         $this->dispatch('toast', message: 'Foto dihapus', type: 'success');
     }
 
+    public function startEditCategory($id, $name)
+    {
+        $this->editingCategoryId = $id;
+        $this->editingCategoryName = $name;
+    }
+
+    public function cancelEditCategory()
+    {
+        $this->editingCategoryId = null;
+        $this->editingCategoryName = '';
+    }
+
+    public function updateCategory()
+    {
+        $this->validate([
+            'editingCategoryName' => 'required|string|max:255',
+        ]);
+
+        $store = auth()->user()->store;
+        if (!$store) return;
+
+        $category = Category::where('store_id', $store->id)->where('id', $this->editingCategoryId)->first();
+        if ($category) {
+            $category->update([
+                'name' => trim($this->editingCategoryName),
+                'slug' => Str::slug($this->editingCategoryName),
+            ]);
+            $this->dispatch('toast', message: 'Kategori berhasil diperbarui!', type: 'success');
+        }
+
+        $this->editingCategoryId = null;
+        $this->editingCategoryName = '';
+    }
+
+    public function confirmDeleteCategory($id)
+    {
+        $this->confirmingDeleteCategoryId = $id;
+    }
+
+    public function cancelDeleteCategory()
+    {
+        $this->confirmingDeleteCategoryId = null;
+    }
+
+    public function deleteCategory($id)
+    {
+        $store = auth()->user()->store;
+        if (!$store) return;
+
+        $category = Category::where('store_id', $store->id)->where('id', $id)->first();
+        if ($category) {
+            Product::where('store_id', $store->id)->where('category_id', $category->id)->update(['category_id' => null]);
+            $category->delete();
+
+            if ($this->category_id == $id) {
+                $this->category_id = '';
+            }
+
+            $this->dispatch('toast', message: 'Kategori berhasil dihapus.', type: 'success');
+        }
+
+        $this->confirmingDeleteCategoryId = null;
+    }
+
     public function saveCategory()
     {
         $this->validate([
