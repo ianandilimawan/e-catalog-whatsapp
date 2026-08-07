@@ -17,9 +17,10 @@
     </div>
 
     <!-- 2. Category Filter & Management Bar -->
-    <div class="space-y-2">
-        <div class="flex items-center justify-between gap-2">
-            <span class="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Kategori Produk</span>
+    <div class="space-y-1.5">
+        <span class="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider block">Kategori Produk</span>
+
+        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
             <button wire:click="openCategoryManager" 
                     class="px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900/60 active:scale-98 transition-all flex items-center gap-1.5 shadow-xs">
                 <svg class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -28,13 +29,12 @@
                 </svg>
                 <span>Kelola Kategori</span>
             </button>
-        </div>
 
-        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
             <button wire:click="selectCategory(null)" 
                     class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border {{ is_null($selectedCategory) ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm' : 'bg-white dark:bg-zinc-900 border-zinc-200/80 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800' }}">
                 Semua ({{ $totalCount }})
             </button>
+
             @foreach($categories as $cat)
                 <button wire:click="selectCategory({{ $cat->id }})" 
                         class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border {{ $selectedCategory == $cat->id ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm' : 'bg-white dark:bg-zinc-900 border-zinc-200/80 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800' }}">
