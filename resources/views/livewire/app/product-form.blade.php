@@ -21,9 +21,14 @@
     <!-- 1. Image Upload Section (Horizontal Scrollable Slots - Larger on Desktop) -->
     <div
         class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 md:p-6 shadow-sm">
-        <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
-            Foto Produk (Tap untuk Kamera/Galeri)
-        </label>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
+                Foto Produk (Tap untuk Kamera/Galeri)
+            </label>
+            <p class="text-[11px] text-zinc-500 dark:text-zinc-400">
+                Disarankan: <strong class="text-zinc-700 dark:text-zinc-300 font-semibold">800 x 800 px</strong> (Persegi 1:1, Maks. 5MB)
+            </p>
+        </div>
 
         <div class="flex gap-3 md:gap-4 overflow-x-auto snap-x no-scrollbar py-1">
             <!-- Slot 1: Main Photo (Larger) -->

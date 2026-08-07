@@ -134,32 +134,34 @@
                 <!-- Input Logo -->
                 <div
                     class="bg-zinc-50 dark:bg-zinc-800/50 p-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-700/80 space-y-2">
-                    <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300">Logo Toko (Rasio 1:1)</label>
+                    <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300">Logo Toko (Persegi 1:1)</label>
                     <input type="file" x-ref="logoInput" name="logo" accept="image/*" @change="onLogoSelect($event)"
                         class="block w-full text-xs text-zinc-500 file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950 dark:file:text-emerald-400 cursor-pointer" />
 
                     <button type="button" @click="openCropperForLogo()" x-show="logoSource || logoPreview"
                         class="w-full py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-xs font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900 transition-colors flex items-center justify-center gap-1.5">
-                        {{-- <span>✂️</span> --}}
                         <span>Geser & Crop Logo (1:1)</span>
                     </button>
-                    <p class="text-[11px] text-zinc-400 dark:text-zinc-500">Rekomendasi logo berbentuk persegi 1:1.</p>
+                    <p class="text-[11px] text-zinc-500 dark:text-zinc-400">
+                        Resolusi disarankan: <strong class="text-zinc-700 dark:text-zinc-300 font-semibold">500 x 500 px</strong> (Format PNG/JPG/WEBP, Maks. 5MB).
+                    </p>
                 </div>
 
                 <!-- Input Banner -->
                 <div
                     class="bg-zinc-50 dark:bg-zinc-800/50 p-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-700/80 space-y-2">
-                    <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300">Banner Toko (Rasio 3:1)</label>
+                    <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300">Banner Toko (Lansekap 3:1)</label>
                     <input type="file" x-ref="bannerInput" name="banner" accept="image/*"
                         @change="onBannerSelect($event)"
                         class="block w-full text-xs text-zinc-500 file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950 dark:file:text-emerald-400 cursor-pointer" />
 
                     <button type="button" @click="openCropperForBanner()" x-show="bannerSource || bannerPreview"
                         class="w-full py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-xs font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900 transition-colors flex items-center justify-center gap-1.5">
-                        {{-- <span>✂️</span> --}}
                         <span>Geser & Crop Banner (3:1)</span>
                     </button>
-                    <p class="text-[11px] text-zinc-400 dark:text-zinc-500">Bisa digeser dan dicrop sesuai rasio banner.</p>
+                    <p class="text-[11px] text-zinc-500 dark:text-zinc-400">
+                        Resolusi disarankan: <strong class="text-zinc-700 dark:text-zinc-300 font-semibold">1200 x 400 px</strong> (Format PNG/JPG/WEBP, Maks. 5MB).
+                    </p>
                 </div>
             </div>
 
@@ -421,7 +423,7 @@
                                     <h3
                                         class="text-base md:text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
                                         <span
-                                            x-text="cropType === 'banner' ? 'Geser & Crop Banner Toko (3:1)' : 'Geser & Crop Logo Toko (1:1)'"></span>
+                                            x-text="cropType === 'banner' ? 'Geser & Crop Banner Toko (1200 x 400 px / Rasio 3:1)' : 'Geser & Crop Logo Toko (500 x 500 px / Rasio 1:1)'"></span>
                                     </h3>
                                     <p class="text-xs text-zinc-500 dark:text-zinc-400">Geser atau perbesar gambar agar
                                         sesuai
