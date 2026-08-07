@@ -28,7 +28,7 @@
                     <img src="{{ asset('images/logo.jpg') }}" alt="{{ config('app.name') }}"
                         class="h-12 w-12 object-cover rounded-xl mb-8 filter drop-shadow-sm dark:drop-shadow-lg">
                     <h1 class="text-4xl font-extrabold tracking-tight mb-4 text-zinc-900 dark:text-white drop-shadow-sm">
-                        Hampir selesai!<br>Setup toko kamu 🎉
+                        Hampir selesai!<br>Setup toko kamu
                     </h1>
                     <p class="text-zinc-600 dark:text-blue-100/90 text-lg max-w-sm">
                         Isi beberapa info singkat tentang tokomu. Ini hanya butuh 30 detik.
@@ -120,21 +120,21 @@
                             </svg>
                         </button>
                     </div>
-
-                    {{-- Logout Option --}}
-                    <div class="pt-2 text-center">
-                        <form action="{{ route('admin.logout') }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit"
-                                class="text-xs font-semibold text-zinc-500 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 transition-colors inline-flex items-center gap-1.5 py-2 px-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                </svg>
-                                <span>Gajadi? Keluar (Logout)</span>
-                            </button>
-                        </form>
-                    </div>
                 </form>
+
+                {{-- Logout Option (Separate Form outside onboardingForm) --}}
+                <div class="pt-3 text-center">
+                    <form action="{{ route('admin.logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit"
+                            class="text-xs font-semibold text-zinc-500 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 transition-colors inline-flex items-center gap-1.5 py-2 px-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span>Gajadi? Keluar (Logout)</span>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
