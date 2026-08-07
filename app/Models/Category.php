@@ -51,4 +51,9 @@ class Category extends Model
     {
         return $this->belongsTo(\App\Models\Store::class, 'store_id');
     }
+
+    public function products()
+    {
+        return $this->hasMany(\App\Models\Product::class, 'category_id');
+    }
 }

@@ -412,16 +412,24 @@
                 :class="selectedCategory === 'all' ? 'bg-primary text-white shadow-md' :
                     'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'"
                 class="px-4 py-2 rounded-full whitespace-nowrap text-xs sm:text-sm font-bold transition-all btn-custom">
-                Semua
+                Semua ({{ $totalProductsCount ?? count($formattedProducts) }})
             </button>
             @foreach ($categories as $category)
                 <button @click="selectedCategory = {{ $category->id }}"
                     :class="selectedCategory == {{ $category->id }} ? 'bg-primary text-white shadow-md' :
                         'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'"
                     class="px-4 py-2 rounded-full whitespace-nowrap text-xs sm:text-sm font-bold transition-all btn-custom">
-                    {{ $category->name }}
+                    {{ $category->name }} ({{ $category->products_count }})
                 </button>
             @endforeach
+            @if (isset($uncategorizedCount) && $uncategorizedCount > 0)
+                <button @click="selectedCategory = 'uncategorized'"
+                    :class="selectedCategory === 'uncategorized' ? 'bg-primary text-white shadow-md' :
+                        'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'"
+                    class="px-4 py-2 rounded-full whitespace-nowrap text-xs sm:text-sm font-bold transition-all btn-custom">
+                    Tanpa Kategori ({{ $uncategorizedCount }})
+                </button>
+            @endif
         </div>
 
         <!-- Empty State -->
@@ -752,7 +760,9 @@
 
                 get filteredProducts() {
                     let products = this.allProducts;
-                    if (this.selectedCategory !== 'all') {
+                    if (this.selectedCategory === 'uncategorized') {
+                        products = products.filter(p => !p.category_id);
+                    } else if (this.selectedCategory !== 'all') {
                         products = products.filter(p => p.category_id == this.selectedCategory);
                     }
                     if (this.searchQuery && this.searchQuery.trim()) {

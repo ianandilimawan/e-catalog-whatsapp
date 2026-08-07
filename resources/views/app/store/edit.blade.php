@@ -442,6 +442,25 @@
                                     alt="To Crop">
                             </div>
 
+                            <!-- Cropper Toolbar Controls -->
+                            <div class="flex items-center justify-between gap-2 px-1 pt-3 text-xs text-zinc-500 dark:text-zinc-400 border-t border-zinc-200 dark:border-zinc-800">
+                                <span class="hidden sm:inline">Zoom: Scroll / Cubit layar</span>
+                                <div class="flex items-center gap-1.5 ml-auto">
+                                    <button type="button" @click="cropper?.zoom(0.1)" class="px-2.5 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 font-bold text-xs flex items-center gap-1">
+                                        <span>+ Zoom</span>
+                                    </button>
+                                    <button type="button" @click="cropper?.zoom(-0.1)" class="px-2.5 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 font-bold text-xs flex items-center gap-1">
+                                        <span>- Zoom</span>
+                                    </button>
+                                    <button type="button" @click="cropper?.rotate(90)" class="px-2.5 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 font-bold text-xs flex items-center gap-1">
+                                        <span>↻ Putar</span>
+                                    </button>
+                                    <button type="button" @click="cropper?.reset()" class="px-2.5 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 font-bold text-xs">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+
                             <!-- Modal Action Footer -->
                             <div
                                 class="flex items-center justify-end gap-3 pt-3 border-t border-zinc-200 dark:border-zinc-800">
@@ -544,10 +563,16 @@
                         this.cropper = new Cropper(img, {
                             aspectRatio: targetRatio,
                             viewMode: 1,
-                            autoCropArea: 0.95,
+                            dragMode: 'move',
+                            autoCropArea: 1,
                             responsive: true,
                             restore: false,
-                            background: false
+                            background: true,
+                            center: true,
+                            highlight: false,
+                            cropBoxMovable: true,
+                            cropBoxResizable: true,
+                            toggleDragModeOnDblclick: false,
                         });
                     }, 150);
                 },
@@ -555,9 +580,14 @@
                 applyCrop() {
                     if (!this.cropper) return;
 
+                    const outputWidth = this.cropType === 'banner' ? 1200 : 500;
+                    const outputHeight = this.cropType === 'banner' ? 400 : 500;
+
                     const canvas = this.cropper.getCroppedCanvas({
-                        maxWidth: 2000,
-                        maxHeight: 2000
+                        width: outputWidth,
+                        height: outputHeight,
+                        imageSmoothingEnabled: true,
+                        imageSmoothingQuality: 'high',
                     });
 
                     canvas.toBlob((blob) => {

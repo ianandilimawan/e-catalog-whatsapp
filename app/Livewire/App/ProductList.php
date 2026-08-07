@@ -198,7 +198,14 @@ class ProductList extends Component
     public function render()
     {
         $store = auth()->user()->store;
-        $categories = $store ? Category::where('store_id', $store->id)->get() : collect();
+        $categories = $store ? Category::where('store_id', $store->id)
+            ->withCount(['products' => function ($q) use ($store) {
+                $q->where('store_id', $store->id);
+            }])
+            ->get() : collect();
+
+        $uncategorizedCount = $store ? Product::where('store_id', $store->id)->whereNull('category_id')->count() : 0;
+        $totalCount = $store ? Product::where('store_id', $store->id)->count() : 0;
 
         $query = Product::query();
         if ($store) {
@@ -211,18 +218,21 @@ class ProductList extends Component
             $query->where('name', 'like', '%' . $this->search . '%');
         }
 
-        if ($this->selectedCategory) {
+        if ($this->selectedCategory === 'uncategorized') {
+            $query->whereNull('category_id');
+        } elseif ($this->selectedCategory) {
             $query->where('category_id', $this->selectedCategory);
         }
 
-        $totalCount = (clone $query)->count();
+        $filteredCount = (clone $query)->count();
         $products = $query->with(['category'])->latest()->take($this->perPage)->get();
 
         return view('livewire.app.product-list', [
             'products' => $products,
             'categories' => $categories,
+            'uncategorizedCount' => $uncategorizedCount,
             'totalCount' => $totalCount,
-            'hasMore' => $products->count() < $totalCount,
+            'hasMore' => $products->count() < $filteredCount,
         ]);
     }
 }

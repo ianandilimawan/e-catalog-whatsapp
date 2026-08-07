@@ -17,10 +17,19 @@ class CatalogController extends Controller
             abort(404, 'Toko ini sedang tidak aktif.');
         }
 
-        $categories = Category::where('store_id', $store->id)->get();
+        $categories = Category::where('store_id', $store->id)
+            ->withCount(['products' => function ($q) use ($store) {
+                $q->where('store_id', $store->id);
+            }])
+            ->get();
+
+        $uncategorizedCount = Product::where('store_id', $store->id)->whereNull('category_id')->count();
+        $totalProductsCount = Product::where('store_id', $store->id)->count();
         
         $productsQuery = Product::with('images')->where('store_id', $store->id);
-        if ($request->category && $request->category !== 'all') {
+        if ($request->category === 'uncategorized') {
+            $productsQuery->whereNull('category_id');
+        } elseif ($request->category && $request->category !== 'all') {
             $productsQuery->where('category_id', $request->category);
         }
 
@@ -66,7 +75,7 @@ class CatalogController extends Controller
             'user_agent' => request()->userAgent()
         ]);
 
-        return view('katalog', compact('store', 'categories', 'products'));
+        return view('katalog', compact('store', 'categories', 'products', 'uncategorizedCount', 'totalProductsCount'));
     }
 
     public function trackProductView($slug, Product $product)

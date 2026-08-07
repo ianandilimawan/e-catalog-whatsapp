@@ -38,9 +38,16 @@
             @foreach($categories as $cat)
                 <button wire:click="selectCategory({{ $cat->id }})" 
                         class="snap-start flex-shrink-0 whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border {{ $selectedCategory == $cat->id ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm' : 'bg-white dark:bg-zinc-900 border-zinc-200/80 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800' }}">
-                    {{ $cat->name }}
+                    {{ $cat->name }} ({{ $cat->products_count }})
                 </button>
             @endforeach
+
+            @if($uncategorizedCount > 0)
+                <button wire:click="selectCategory('uncategorized')" 
+                        class="snap-start flex-shrink-0 whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border {{ $selectedCategory === 'uncategorized' ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm' : 'bg-white dark:bg-zinc-900 border-zinc-200/80 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800' }}">
+                    Tanpa Kategori ({{ $uncategorizedCount }})
+                </button>
+            @endif
         </div>
     </div>
 
@@ -69,6 +76,10 @@
                             @if($prod->category)
                                 <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-[10px] font-semibold text-white truncate max-w-[80%]">
                                     {{ $prod->category->name }}
+                                </span>
+                            @else
+                                <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-zinc-700/80 backdrop-blur-md text-[10px] font-semibold text-white truncate max-w-[80%]">
+                                    Tanpa Kategori
                                 </span>
                             @endif
                         </a>

@@ -37,7 +37,7 @@ class ProductForm extends Component
         return [
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'description' => 'nullable|string|max:2000',
             'image' => ($imageRequired ? 'required' : 'nullable') . '|image|max:5120',
             'detailImages.*' => 'nullable|image|max:5120',

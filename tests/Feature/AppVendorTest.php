@@ -86,6 +86,17 @@ class AppVendorTest extends TestCase
             'name' => 'Kategori Ter-Update',
         ]);
 
+        // Create product under category
+        $product = Product::create([
+            'store_id' => $this->store->id,
+            'category_id' => $cat->id,
+            'name' => 'Produk Kategori Test',
+            'slug' => 'produk-kategori-test',
+            'description' => 'Test Deskripsi',
+            'price' => 15000,
+            'image' => 'products/dummy.jpg',
+        ]);
+
         \Livewire::actingAs($this->user)
             ->test(\App\Livewire\App\ProductList::class)
             ->call('deleteCategory', $cat->id)
@@ -93,6 +104,11 @@ class AppVendorTest extends TestCase
 
         $this->assertDatabaseMissing('categories', [
             'id' => $cat->id,
+        ]);
+
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'category_id' => null,
         ]);
     }
 
