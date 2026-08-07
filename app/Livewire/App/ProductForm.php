@@ -29,6 +29,10 @@ class ProductForm extends Component
     // Quick Add Category Modal
     public $showCategoryModal = false;
     public $newCategoryName = '';
+    
+    public $editingCategoryId = null;
+    public $editingCategoryName = '';
+    public $confirmingDeleteCategoryId = null;
 
     protected function rules()
     {
