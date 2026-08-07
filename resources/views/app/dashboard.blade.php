@@ -68,8 +68,6 @@
                     class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-3.5 md:p-5 shadow-sm">
                     <div class="flex items-center justify-between text-zinc-500 dark:text-zinc-400 mb-2">
                         <span class="text-xs md:text-sm font-medium">Klik WA</span>
-                        {{-- <span
-                            class="p-1 md:p-1.5 rounded-lg bg-green-50 dark:bg-green-950/50 text-green-600 dark:text-green-400 text-sm md:text-base">💬</span> --}}
                     </div>
                     <div class="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">{{ $todayWaClicks }}</div>
                     <div class="text-[11px] md:text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Hari Ini</div>
@@ -85,8 +83,10 @@
                 <a href="{{ route('app.products.create') }}"
                     class="flex items-center gap-3 p-3.5 md:p-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-sm hover:border-emerald-500 transition-colors active:scale-98">
                     <div
-                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg md:text-xl flex-shrink-0">
-                        ➕
+                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
                     </div>
                     <div>
                         <h4 class="text-sm font-bold text-zinc-900 dark:text-white leading-tight">Tambah Produk</h4>
@@ -97,8 +97,11 @@
                 <a href="{{ route('app.store.edit') }}"
                     class="flex items-center gap-3 p-3.5 md:p-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-sm hover:border-emerald-500 transition-colors active:scale-98">
                     <div
-                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-lg md:text-xl flex-shrink-0">
-                        ⚙️
+                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
                     </div>
                     <div>
                         <h4 class="text-sm font-bold text-zinc-900 dark:text-white leading-tight">Edit Toko</h4>
@@ -109,26 +112,31 @@
                 <a href="{{ route('catalog.show', $store->slug) }}" target="_blank"
                     class="flex items-center gap-3 p-3.5 md:p-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-sm hover:border-emerald-500 transition-colors active:scale-98">
                     <div
-                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-lg md:text-xl flex-shrink-0">
-                        🌐
+                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 000 18M12.5 3a17 17 0 010 18" />
+                        </svg>
                     </div>
                     <div>
-                        <h4 class="text-sm font-bold text-zinc-900 dark:text-white leading-tight">Lihat Katalog</h4>
-                        <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Buka web toko</p>
+                        <h4 class="text-sm font-bold text-zinc-900 dark:text-white leading-tight">Lihat Toko</h4>
+                        <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Pratinjau Live</p>
                     </div>
                 </a>
 
-                <button @click="shareCatalog('{{ route('catalog.show', $store->slug) }}', '{{ $store->name }}')"
-                    class="flex items-center gap-3 p-3.5 md:p-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-sm hover:border-emerald-500 transition-colors text-left active:scale-98">
+                <a href="{{ route('app.stats.index') }}"
+                    class="flex items-center gap-3 p-3.5 md:p-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-sm hover:border-emerald-500 transition-colors active:scale-98">
                     <div
-                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-lg md:text-xl flex-shrink-0">
-                        🔗
+                        class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
                     </div>
                     <div>
-                        <h4 class="text-sm font-bold text-zinc-900 dark:text-white leading-tight">Bagikan Link</h4>
-                        <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Share ke WA</p>
+                        <h4 class="text-sm font-bold text-zinc-900 dark:text-white leading-tight">Statistik</h4>
+                        <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Pengunjung & WA</p>
                     </div>
-                </button>
+                </a>
             </div>
         </div>
 

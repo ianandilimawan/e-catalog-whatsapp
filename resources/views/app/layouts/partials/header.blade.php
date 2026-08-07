@@ -35,22 +35,30 @@
         <nav class="hidden lg:flex items-center gap-8 text-sm">
             <a href="{{ route('app.dashboard') }}"
                 class="flex items-center gap-1.5 transition-colors py-1 border-b-2 {{ $currentRoute === 'app.dashboard' ? 'text-emerald-600 dark:text-emerald-400 font-bold border-emerald-600 dark:border-emerald-400' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium border-transparent' }}">
-                <span>🏠</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
                 <span>Dashboard</span>
             </a>
             <a href="{{ route('app.products.index') }}"
                 class="flex items-center gap-1.5 transition-colors py-1 border-b-2 {{ str_starts_with($currentRoute, 'app.products') ? 'text-emerald-600 dark:text-emerald-400 font-bold border-emerald-600 dark:border-emerald-400' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium border-transparent' }}">
-                <span>📦</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
                 <span>Produk</span>
             </a>
             <a href="{{ route('app.stats.index') }}"
                 class="flex items-center gap-1.5 transition-colors py-1 border-b-2 {{ $currentRoute === 'app.stats.index' ? 'text-emerald-600 dark:text-emerald-400 font-bold border-emerald-600 dark:border-emerald-400' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium border-transparent' }}">
-                <span>📊</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
                 <span>Statistik</span>
             </a>
             <a href="{{ route('app.account.index') }}"
                 class="flex items-center gap-1.5 transition-colors py-1 border-b-2 {{ in_array($currentRoute, ['app.account.index', 'app.store.edit']) ? 'text-emerald-600 dark:text-emerald-400 font-bold border-emerald-600 dark:border-emerald-400' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium border-transparent' }}">
-                <span>👤</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
                 <span>Akun</span>
             </a>
         </nav>

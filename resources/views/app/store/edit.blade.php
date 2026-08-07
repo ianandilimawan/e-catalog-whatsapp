@@ -27,7 +27,10 @@
             </div>
             <a href="{{ route('catalog.show', $store->slug) }}" target="_blank"
                 class="px-3.5 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs md:text-sm font-bold flex items-center gap-1.5 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
-                <span>🌐</span>
+                <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 000 18M12.5 3a17 17 0 010 18" />
+                </svg>
                 <span>Preview Katalog</span>
             </a>
         </div>
@@ -291,12 +294,16 @@
                 <!-- CTA Button Text -->
                 <div>
                     <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-1.5">
-                        Teks Tombol Pesan
+                        Teks Tombol Pesan (WhatsApp CTA)
                     </label>
                     <input type="text" name="cta_button_text"
-                        value="{{ old('cta_button_text', $store->cta_button_text) }}" placeholder="+ Add"
-                        @error('cta_button_text') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
-                        </div>
+                        value="{{ old('cta_button_text', $store->cta_button_text) }}"
+                        placeholder="Contoh: Pesan Sekarang / Order via WA"
+                        class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-medium text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-emerald-500 transition-colors" />
+                    <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">Teks yang akan muncul di tombol aksi pemesanan katalog pembeli.</p>
+                    @error('cta_button_text')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- 5. Link & QR Code Toko Section -->
@@ -317,28 +324,31 @@
                     @endphp
 
                     <!-- Link Box -->
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                        <input type="text" readonly value="{{ $catalogUrl }}"
-                            class="flex-1 h-11 px-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700" />
-                        <div class="flex items-center gap-2">
-                            <button type="button" @click="copyLink('{{ $catalogUrl }}')"
-                                class="flex-1 sm:flex-none px-4 h-11 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-md hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1.5">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 002-2h2a2 2 0 002-2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
-                                    </path>
-                                </svg>
-                                <span>Salin Link</span>
-                            </button>
-                            <a href="{{ $catalogUrl }}" target="_blank"
-                                class="px-4 h-11 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors flex items-center justify-center gap-1">
-                                <span>Buka</span>
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
-                                    </path>
-                                </svg>
-                            </a>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300">Link Katalog Public</label>
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                            <input type="text" readonly value="{{ $catalogUrl }}"
+                                class="w-full flex-1 h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-xs sm:text-sm font-mono text-zinc-800 dark:text-zinc-200 focus:outline-none" />
+                            <div class="grid grid-cols-2 sm:flex items-center gap-2">
+                                <button type="button" @click="copyLink('{{ $catalogUrl }}')"
+                                    class="h-12 px-5 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-md hover:bg-emerald-700 active:scale-98 transition-all flex items-center justify-center gap-1.5 whitespace-nowrap">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 002-2h2a2 2 0 002-2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
+                                        </path>
+                                    </svg>
+                                    <span>Salin Link</span>
+                                </button>
+                                <a href="{{ $catalogUrl }}" target="_blank"
+                                    class="h-12 px-5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700 active:scale-98 transition-all flex items-center justify-center gap-1.5 whitespace-nowrap">
+                                    <span>Buka</span>
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                        </path>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -350,17 +360,17 @@
                             <img src="{{ $qrCodeUrl }}" alt="QR Code {{ $store->name }}"
                                 class="w-full h-full object-contain">
                         </div>
-                        <div class="flex-1 text-center md:text-left space-y-2">
+                        <div class="flex-1 w-full text-center md:text-left space-y-2.5">
                             <h4 class="text-sm font-bold text-zinc-900 dark:text-white">Cetak QR Code / Poster Standee Toko
                             </h4>
                             <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                                 Cetak QR Code ini dan letakkan di meja kasir, flyer, atau banner toko Anda agar pembeli bisa
                                 langsung melakukan scan dan memilih produk lewat WhatsApp.
                             </p>
-                            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5 pt-1">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 max-w-md mx-auto md:mx-0">
                                 <button type="button"
                                     @click="downloadQrCode('{{ $qrCodeUrl }}', 'QR-Code-{{ $store->slug }}.png')"
-                                    class="px-4 py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xs font-bold shadow hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors flex items-center gap-2">
+                                    class="h-12 px-4 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xs font-bold shadow hover:bg-zinc-800 dark:hover:bg-zinc-200 active:scale-98 transition-all flex items-center justify-center gap-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
@@ -369,7 +379,7 @@
                                 </button>
                                 <button type="button"
                                     @click="printQrCard('{{ e($store->name) }}', '{{ $logoUrl }}', '{{ $qrCodeUrl }}', '{{ $catalogUrl }}')"
-                                    class="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow hover:bg-emerald-700 transition-colors flex items-center gap-2">
+                                    class="h-12 px-4 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow hover:bg-emerald-700 active:scale-98 transition-all flex items-center justify-center gap-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
@@ -389,7 +399,10 @@
                         class="px-4 md:px-6 lg:px-8 max-w-md md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mx-auto flex justify-end">
                         <button type="submit"
                             class="w-full md:w-auto md:px-16 h-[48px] rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold text-base shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all">
-                            💾 Simpan Pengaturan Toko
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                            </svg>
+                            <span>Simpan Pengaturan Toko</span>
                         </button>
                     </div>
                 </div>
@@ -435,8 +448,11 @@
                                     Batal
                                 </button>
                                 <button type="button" @click="applyCrop()"
-                                    class="px-6 h-11 rounded-xl bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 transition-colors shadow-md shadow-emerald-600/30 flex items-center gap-2">
-                                    ✂️ Gunakan Hasil Crop
+                                    class="px-6 h-11 rounded-xl bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 transition-colors shadow-md shadow-emerald-600/30 flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 0L4 4m5.121 5.121L4 14.121" />
+                                    </svg>
+                                    <span>Gunakan Hasil Crop</span>
                                 </button>
                             </div>
                         </div>

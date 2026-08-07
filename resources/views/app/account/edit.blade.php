@@ -27,7 +27,11 @@
                     <h3 class="text-sm md:text-base font-bold text-zinc-900 dark:text-white">Informasi Akun</h3>
                     <p class="text-xs text-zinc-500 dark:text-zinc-400">Update nama dan alamat email kamu.</p>
                 </div>
-                <span class="text-xl">👤</span>
+                <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
             </div>
 
             <form action="{{ route('app.account.update_profile') }}" method="POST" class="space-y-4">
@@ -79,7 +83,11 @@
                     <h3 class="text-sm md:text-base font-bold text-zinc-900 dark:text-white">Keamanan & Password</h3>
                     <p class="text-xs text-zinc-500 dark:text-zinc-400">Ubah kata sandi akun vendor kamu.</p>
                 </div>
-                <span class="text-xl">🔒</span>
+                <div class="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
             </div>
 
             <form action="{{ route('app.account.update_password') }}" method="POST" class="space-y-4">

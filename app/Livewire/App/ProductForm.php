@@ -32,15 +32,31 @@ class ProductForm extends Component
 
     protected function rules()
     {
+        $imageRequired = !$this->productId || !$this->existingImage;
+
         return [
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string|max:2000',
-            'image' => 'nullable|image|max:5120', // 5MB max
+            'image' => ($imageRequired ? 'required' : 'nullable') . '|image|max:5120',
             'detailImages.*' => 'nullable|image|max:5120',
         ];
     }
+
+    protected $messages = [
+        'name.required' => 'Nama produk wajib diisi.',
+        'price.required' => 'Harga produk wajib diisi.',
+        'price.numeric' => 'Harga produk harus berupa angka.',
+        'price.min' => 'Harga produk tidak boleh kurang dari 0.',
+        'category_id.required' => 'Silakan pilih kategori produk.',
+        'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+        'image.required' => 'Foto utama produk wajib diunggah.',
+        'image.image' => 'File foto utama harus berupa gambar (JPG, PNG, WEBP).',
+        'image.max' => 'Ukuran foto utama maksimal 5MB.',
+        'detailImages.*.image' => 'File foto tambahan harus berupa gambar.',
+        'detailImages.*.max' => 'Ukuran foto tambahan maksimal 5MB.',
+    ];
 
     public function mount($product = null)
     {
@@ -201,6 +217,12 @@ class ProductForm extends Component
             $mainImagePath = (new FileUploadService())
                 ->folder('products')
                 ->upload($this->image, $this->existingImage);
+        }
+
+        if (!$mainImagePath) {
+            $this->addError('image', 'Foto utama produk wajib diunggah.');
+            $this->dispatch('toast', message: 'Silakan unggah foto utama produk terlebih dahulu.', type: 'error');
+            return;
         }
 
         if ($this->productId) {
