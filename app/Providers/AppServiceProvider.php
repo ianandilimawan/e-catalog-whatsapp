@@ -37,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
             $settings = Setting::first();
             if ($settings && $settings->smtp_host) {
                 config([
+                    'mail.default' => 'smtp',
                     'mail.mailers.smtp.host' => $settings->smtp_host,
                     'mail.mailers.smtp.port' => $settings->smtp_port,
                     'mail.mailers.smtp.encryption' => $settings->smtp_encryption,
