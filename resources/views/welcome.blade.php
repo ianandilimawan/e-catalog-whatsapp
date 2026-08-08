@@ -638,7 +638,7 @@
             </div>
             <div class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-full shadow-sm border border-slate-100 dark:border-slate-800">
                 <span class="text-xs">A proud product by</span>
-                <span class="font-heading font-bold text-slate-800 dark:text-white tracking-tight">Intech Studio</span>
+                <a href="mailto:hi.intechstudio@gmail.com" class="font-heading font-bold text-slate-800 dark:text-white tracking-tight hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Intech Studio</a>
             </div>
         </div>
     </footer>
