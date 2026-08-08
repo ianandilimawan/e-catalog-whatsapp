@@ -34,10 +34,23 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/register', [\App\Http\Controllers\RegisterController::class, 'show'])->name('register');
     Route::post('/register', [\App\Http\Controllers\RegisterController::class, 'store'])->name('register.post');
+    
+    // Password Reset Routes
+    Route::get('/forgot-password', [\App\Http\Controllers\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('/forgot-password', [\App\Http\Controllers\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/reset-password/{token}', [\App\Http\Controllers\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [\App\Http\Controllers\ResetPasswordController::class, 'reset'])->name('password.update');
+});
+
+// Email Verification Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/email/verify', [\App\Http\Controllers\VerificationController::class, 'show'])->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', [\App\Http\Controllers\VerificationController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
+    Route::post('/email/verification-notification', [\App\Http\Controllers\VerificationController::class, 'resend'])->middleware(['throttle:6,1'])->name('verification.send');
 });
 
 // Onboarding (must be logged in but no store yet)
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/onboarding/store', [\App\Http\Controllers\OnboardingController::class, 'show'])->name('onboarding.store');
     Route::post('/onboarding/store', [\App\Http\Controllers\OnboardingController::class, 'store'])->name('onboarding.store.post');
 });
@@ -66,7 +79,7 @@ Route::get('/check-slug', function (\Illuminate\Http\Request $request) {
 Route::prefix('admin')->name('admin.')->group(function () {
 
     // Protected admin routes
-    Route::middleware(['auth', 'ensure.store'])->group(function () {
+    Route::middleware(['auth', 'verified', 'ensure.store'])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -107,7 +120,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.store', 'web'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'ensure.store', 'web'])->group(function () {
     // Store routes
     Route::resource('stores', \App\Http\Controllers\StoreController::class);
     // Category routes

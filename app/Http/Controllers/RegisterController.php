@@ -36,8 +36,10 @@ class RegisterController extends Controller
             $user->assignRole('admin-toko');
         }
 
+        event(new \Illuminate\Auth\Events\Registered($user));
+
         Auth::login($user);
 
-        return redirect()->route('onboarding.store');
+        return redirect()->route('verification.notice');
     }
 }

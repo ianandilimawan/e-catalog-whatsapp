@@ -144,7 +144,7 @@
                         @enderror
                     </div>
 
-                    <!-- Remember Me -->
+                    <!-- Remember Me & Forgot Password -->
                     <div class="flex items-center justify-between pt-2">
                         <div class="flex items-center">
                             <input id="remember-me" name="remember" type="checkbox"
@@ -153,6 +153,12 @@
                                 class="ml-2 block text-sm text-zinc-700 dark:text-zinc-300 cursor-pointer">
                                 Remember me
                             </label>
+                        </div>
+                        
+                        <div class="text-sm">
+                            <a href="{{ route('password.request') }}" class="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">
+                                Lupa password?
+                            </a>
                         </div>
                     </div>
 
