@@ -153,6 +153,21 @@
     class="antialiased min-h-screen flex flex-col justify-between relative selection:bg-emerald-500 selection:text-white"
     x-data="catalogApp()" :class="{ 'overflow-hidden': isProductModalOpen || isCheckoutModalOpen || isSideMenuOpen }">
 
+    <!-- Toast Notification -->
+    <div x-show="toast.show" x-cloak
+        x-transition:enter="transition ease-out duration-300 transform"
+        x-transition:enter-start="-translate-y-full opacity-0"
+        x-transition:enter-end="translate-y-0 opacity-100"
+        x-transition:leave="transition ease-in duration-200 transform"
+        x-transition:leave-start="translate-y-0 opacity-100"
+        x-transition:leave-end="-translate-y-full opacity-0"
+        class="fixed top-5 left-1/2 -translate-x-1/2 z-[120] bg-zinc-900/90 dark:bg-white/90 text-white dark:text-zinc-900 px-4 py-2.5 rounded-2xl shadow-xl text-xs font-bold backdrop-blur-md flex items-center gap-2">
+        <svg class="w-4 h-4 text-emerald-400 dark:text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span x-text="toast.message"></span>
+    </div>
+
     <!-- 1. STICKY TOP NAVIGATION HEADER -->
     <header
         class="sticky top-0 z-40 w-full backdrop-blur-xl bg-white/90 dark:bg-gray-900/90 border-b border-gray-100 dark:border-gray-800 transition-colors shadow-sm">
@@ -485,7 +500,7 @@
                             <template x-if="!product.images || product.images.length === 0">
                                 <div
                                     class="absolute inset-0 flex items-center justify-center text-gray-400 text-xs font-semibold">
-                                    No Image</div>
+                                    Belum Ada Foto</div>
                             </template>
                         </div>
 
@@ -637,9 +652,16 @@
             x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full">
 
             <div class="relative w-full pt-[80%] sm:pt-[75%] bg-gray-100 dark:bg-gray-800 flex-shrink-0">
-                <button @click="closeProductModal()"
-                    class="absolute top-4 right-4 bg-black/50 text-white rounded-full w-9 h-9 flex items-center justify-center z-[15] hover:bg-black/70 transition-colors">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <button @click="shareProduct()" title="Bagikan Produk Ini"
+                    class="absolute top-4 left-4 bg-black/40 hover:bg-black/60 text-white rounded-full w-8 h-8 flex items-center justify-center z-[15] backdrop-blur-md border border-white/20 transition-transform active:scale-90 shadow-sm">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684" />
+                    </svg>
+                </button>
+                <button @click="closeProductModal()" title="Tutup"
+                    class="absolute top-4 right-4 bg-black/40 hover:bg-black/60 text-white rounded-full w-8 h-8 flex items-center justify-center z-[15] backdrop-blur-md border border-white/20 transition-transform active:scale-90 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -650,7 +672,7 @@
                 </template>
                 <template x-if="!activeProduct?.images || activeProduct.images.length === 0">
                     <div class="absolute inset-0 flex items-center justify-center text-gray-400 font-semibold text-sm">
-                        No Image</div>
+                        Belum Ada Foto</div>
                 </template>
             </div>
 
@@ -784,6 +806,19 @@
                     return products;
                 },
 
+                toast: {
+                    show: false,
+                    message: ''
+                },
+
+                showToast(msg) {
+                    this.toast.message = msg;
+                    this.toast.show = true;
+                    setTimeout(() => {
+                        this.toast.show = false;
+                    }, 3000);
+                },
+
                 shareStore() {
                     const url = window.location.href;
                     const title = '{{ e($store->name) }}';
@@ -794,7 +829,49 @@
                         }).catch(() => {});
                     } else {
                         navigator.clipboard.writeText(url);
-                        alert('Link katalog berhasil disalin!');
+                        this.showToast('Link katalog berhasil disalin!');
+                    }
+                },
+
+                quickShareProduct(product) {
+                    const url = window.location.protocol + "//" + window.location.host + window.location.pathname + '?p=' + product.slug;
+                    const title = product.name + ' - {{ e($store->name) }}';
+                    const text = 'Lihat ' + product.name + ' seharga Rp ' + this.formatRupiah(product.price) + ' di katalog {{ e($store->name) }}!';
+
+                    if (navigator.share) {
+                        navigator.share({
+                            title: title,
+                            text: text,
+                            url: url
+                        }).catch(() => {});
+                    } else {
+                        navigator.clipboard.writeText(url).then(() => {
+                            this.showToast('Link produk "' + product.name + '" berhasil disalin!');
+                        }).catch(() => {
+                            this.showToast('Gagal menyalin link produk.');
+                        });
+                    }
+                },
+
+                shareProduct() {
+                    if (!this.activeProduct) return;
+                    const p = this.activeProduct;
+                    const url = window.location.protocol + "//" + window.location.host + window.location.pathname + '?p=' + p.slug;
+                    const title = p.name + ' - {{ e($store->name) }}';
+                    const text = 'Lihat ' + p.name + ' seharga Rp ' + this.formatRupiah(p.price) + ' di katalog {{ e($store->name) }}!';
+
+                    if (navigator.share) {
+                        navigator.share({
+                            title: title,
+                            text: text,
+                            url: url
+                        }).catch(() => {});
+                    } else {
+                        navigator.clipboard.writeText(url).then(() => {
+                            this.showToast('Link produk "' + p.name + '" berhasil disalin!');
+                        }).catch(() => {
+                            this.showToast('Gagal menyalin link produk.');
+                        });
                     }
                 },
 
@@ -829,17 +906,20 @@
                 },
 
                 openProductDetail(id, name, price, description, images, track = true) {
+                    const p = this.allProducts.find(prod => prod.id === id);
+                    const slug = p ? p.slug : '';
+
                     this.activeProduct = {
                         id,
                         name,
                         price,
                         description,
                         images: images || [],
-                        activeImageIndex: 0
+                        activeImageIndex: 0,
+                        slug: slug
                     };
                     this.isProductModalOpen = true;
 
-                    const p = this.allProducts.find(prod => prod.id === id);
                     if (p) {
                         const newUrl = window.location.protocol + "//" + window.location.host + window
                             .location.pathname + '?p=' + p.slug;
