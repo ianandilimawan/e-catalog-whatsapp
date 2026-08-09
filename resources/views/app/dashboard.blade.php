@@ -75,6 +75,23 @@
             </div>
         </div>
 
+        <!-- 2.5. Share Store Prominent Banner (Viral Loop) -->
+        <div class="bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl p-4 md:p-5 text-white shadow-md relative overflow-hidden flex items-center justify-between">
+            <div class="relative z-10">
+                <h3 class="text-sm md:text-base font-bold mb-1">Sebarkan Toko Kamu! 🚀</h3>
+                <p class="text-xs md:text-sm text-indigo-100 max-w-sm">Dapatkan lebih banyak pembeli dengan membagikan link tokomu ke WhatsApp, Instagram, atau TikTok.</p>
+            </div>
+            <button @click="shareCatalog('{{ route('catalog.show', $store->slug) }}', '{{ addslashes($store->name) }}')" class="relative z-10 shrink-0 ml-4 px-4 py-2.5 bg-white text-indigo-600 hover:bg-indigo-50 rounded-xl text-xs md:text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center gap-2">
+                <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 100-5.999 3 3 0 000 5.999zm0 11.998a3 3 0 100-5.999 3 3 0 000 5.999z" />
+                </svg>
+                <span class="hidden sm:inline">Bagikan Toko</span>
+                <span class="sm:hidden">Share</span>
+            </button>
+            <!-- Decorative blur -->
+            <div class="absolute right-0 top-0 w-32 h-32 bg-white/10 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+        </div>
+
         <!-- 3. Quick Actions Grid (4 Cols on Desktop) -->
         <div>
             <h3 class="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2 px-1">Aksi Cepat

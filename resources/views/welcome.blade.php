@@ -96,6 +96,30 @@
             },
             {
               "@@type": "Question",
+              "name": "Berapa banyak produk yang bisa saya tambahkan?",
+              "acceptedAnswer": {
+                "@@type": "Answer",
+                "text": "Tidak ada batasan. Anda bisa menambahkan produk sebanyak-banyaknya tanpa biaya tambahan."
+              }
+            },
+            {
+              "@@type": "Question",
+              "name": "Bagaimana cara jualan di WhatsApp menggunakan Katalogin?",
+              "acceptedAnswer": {
+                "@@type": "Answer",
+                "text": "Sangat mudah! Daftar gratis, buat nama toko Anda, tambahkan foto dan harga produk, lalu bagikan link toko (katalog) tersebut di status WhatsApp, bio Instagram, atau kirim langsung ke pelanggan. Pelanggan bisa order lewat link tersebut yang langsung masuk ke chat WA Anda."
+              }
+            },
+            {
+              "@@type": "Question",
+              "name": "Apakah Katalogin adalah aplikasi pembuat katalog online terbaik untuk UMKM?",
+              "acceptedAnswer": {
+                "@@type": "Answer",
+                "text": "Katalogin dirancang khusus sebagai aplikasi pembuat katalog online paling mudah dan cepat untuk UMKM Indonesia. Tanpa perlu download aplikasi, tanpa server yang lemot, dan tanpa komisi penjualan."
+              }
+            },
+            {
+              "@@type": "Question",
               "name": "Bagaimana dengan sistem pembayarannya?",
               "acceptedAnswer": {
                 "@@type": "Answer",
