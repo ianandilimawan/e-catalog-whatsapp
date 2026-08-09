@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /app/
 
-Sitemap: https://katalogin.com/sitemap.xml
+Sitemap: https://katalogin.intechstudio.id/sitemap.xml
