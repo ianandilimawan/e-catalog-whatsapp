@@ -236,7 +236,7 @@ class ProductForm extends Component
                 'name' => $this->name,
                 'slug' => $slug,
                 'price' => $this->price,
-                'category_id' => $this->category_id,
+                'category_id' => $this->category_id ?: null,
                 'description' => $this->description,
                 'image' => $mainImagePath,
             ]);
@@ -248,7 +248,7 @@ class ProductForm extends Component
                 'name' => $this->name,
                 'slug' => $slug,
                 'price' => $this->price,
-                'category_id' => $this->category_id,
+                'category_id' => $this->category_id ?: null,
                 'description' => $this->description,
                 'image' => $mainImagePath,
                 'views_count' => 0,

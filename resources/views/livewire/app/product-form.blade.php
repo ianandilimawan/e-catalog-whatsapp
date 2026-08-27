@@ -128,13 +128,15 @@
         @enderror
     </div>
 
-    <!-- 2. Form Fields Card (2 Columns on Desktop) -->
+    <!-- 2. Form Fields Card -->
     <div
-        class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 md:p-6 shadow-sm">
-        <div class="space-y-4 md:grid md:grid-cols-2 md:gap-5 md:space-y-0">
+        class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 md:p-6 shadow-sm space-y-5">
+        
+        <!-- Row 1: Nama Produk & Harga Jual (Sejajar Sempurna di Desktop) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
             <!-- Nama Produk -->
-            <div class="md:col-span-1">
-                <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">
+            <div>
+                <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
                     Nama Produk <span class="text-red-500">*</span>
                 </label>
                 <input type="text" wire:model="name" placeholder="Contoh: Kopi Susu Aren Gula Jawa"
@@ -144,33 +146,9 @@
                 @enderror
             </div>
 
-            <!-- Kategori -->
-            <div class="md:col-span-1">
-                <div class="flex items-center justify-between mb-1.5">
-                    <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
-                        Kategori <span class="text-red-500">*</span>
-                    </label>
-                    <button type="button" @click="$wire.set('showCategoryModal', true)"
-                        class="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1">
-                        <span>+ Tambah Baru</span>
-                    </button>
-                </div>
-                <select wire:model="category_id"
-                    class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-medium text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 transition-colors">
-                    <option value="">-- Pilih Kategori --</option>
-                    @foreach ($categories as $cat)
-                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                    @endforeach
-                </select>
-                @error('category_id')
-                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Harga -->
-            <div class="md:col-span-1 md:mt-4">
-                <label
-                    class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">
+            <!-- Harga Jual -->
+            <div>
+                <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
                     Harga Jual (Rp) <span class="text-red-500">*</span>
                 </label>
                 <div class="relative">
@@ -185,20 +163,67 @@
                     <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                 @enderror
             </div>
+        </div>
 
-            <!-- Deskripsi (Full Width di Desktop) -->
-            <div class="md:col-span-2 md:mt-4">
-                <label
-                    class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">
-                    Deskripsi Produk
+        <!-- Row 2: Kategori Produk -->
+        <div>
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
+                    Kategori Produk
                 </label>
-                <textarea wire:model="description" rows="4"
-                    placeholder="Jelaskan detail bahan, porsi, rasa, atau info penting produk ini..."
-                    class="w-full p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-normal text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-emerald-500 transition-colors"></textarea>
-                @error('description')
-                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                @enderror
+                <button type="button" @click="$wire.set('showCategoryModal', true)"
+                    class="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-xs font-bold transition-colors flex items-center gap-1 border border-emerald-200 dark:border-emerald-800/60 shadow-sm">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span>Tambah Kategori</span>
+                </button>
             </div>
+
+            @if ($categories->isEmpty())
+                <div class="mb-2.5 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <span class="text-sm flex-shrink-0">📁</span>
+                        <p class="text-xs text-amber-800 dark:text-amber-300 font-medium leading-tight">
+                            <strong>Toko belum punya kategori!</strong> Buat kategori agar produkmu rapi di katalog.
+                        </p>
+                    </div>
+                    <button type="button" @click="$wire.set('showCategoryModal', true)"
+                        class="flex-shrink-0 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs shadow-sm flex items-center gap-1">
+                        <span>+ Buat</span>
+                    </button>
+                </div>
+            @endif
+
+            <select wire:model="category_id"
+                class="w-full h-12 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-medium text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                <option value="">{{ $categories->isEmpty() ? '⚠️ Belum ada kategori — Klik + Tambah Kategori' : '-- Pilih Kategori (Opsional / Tanpa Kategori) --' }}</option>
+                @foreach ($categories as $cat)
+                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                @endforeach
+            </select>
+            <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1.5 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 flex-shrink-0 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Kategori mengelompokkan produk di katalog tokomu agar pembeli mudah mencari.</span>
+            </p>
+            @error('category_id')
+                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Row 3: Deskripsi Produk -->
+        <div>
+            <label class="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+                Deskripsi Produk
+            </label>
+            <textarea wire:model="description" rows="4"
+                placeholder="Jelaskan detail bahan, porsi, rasa, atau info penting produk ini..."
+                class="w-full p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-base font-normal text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-emerald-500 transition-colors"></textarea>
+            @error('description')
+                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+            @enderror
         </div>
     </div>
 

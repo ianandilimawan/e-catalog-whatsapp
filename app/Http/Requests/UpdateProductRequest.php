@@ -21,6 +21,7 @@ class UpdateProductRequest extends FormRequest
 
         $this->merge([
             'store_id' => $this->input('store_id') ?? (auth()->user()->store->id ?? null),
+            'category_id' => $this->input('category_id') ?: null,
             'name' => $this->input('name') !== null ? strip_tags($this->input('name')) : null,
             'description' => $this->input('description') !== null ? strip_tags($this->input('description')) : null,
             'slug' => $this->input('slug') ?: \Illuminate\Support\Str::slug($this->input('name')),
@@ -37,7 +38,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'store_id' => 'required',
-            'category_id' => 'required',
+            'category_id' => 'nullable',
             'name' => 'required',
             'slug' => 'required',
             'description' => 'required',

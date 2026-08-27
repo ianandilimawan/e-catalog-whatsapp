@@ -18,6 +18,11 @@ class Product extends Model
     protected $fillable = [
         'store_id', 'category_id', 'name', 'slug', 'description', 'price', 'image', 'views_count'
     ];
+
+    public function setCategoryIdAttribute($value)
+    {
+        $this->attributes['category_id'] = (!empty($value) && is_numeric($value)) ? (int) $value : null;
+    }
     
 
     protected static function booted()
